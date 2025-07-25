@@ -1,8 +1,8 @@
 import 'package:mersal/core/constant/const_data.dart';
 
 class ApiLinks {
-  //static const String server = "http://192.168.1.12:8000/api";
-  static const String server= "https://highleveltecknology.com/Ms/api";
+  static const String server = "http://192.168.1.12:8000/api";
+ // static const String server= "https://highleveltecknology.com/Ms/api";
   // ================================= Images ================================== //
   static const String imagesStatic = "";
   // ================================= Auth ================================== //
@@ -21,6 +21,8 @@ class ApiLinks {
       ;
        static const String getProviderforservice =
       "$server/user/provider/service/show_info";
+       static const String getProviderforproduct =
+      "$server/user/provider/product/show_info";
   // ================================= product ================================== //
   static const String latestProduct = "$server/user/product/get_all_latest";
   static const String productByCategory =

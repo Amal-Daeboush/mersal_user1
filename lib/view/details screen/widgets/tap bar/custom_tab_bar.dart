@@ -8,8 +8,9 @@ import 'opinions_list.dart';
 
 class CustomTabBar extends StatelessWidget {
   final List<RatingsModel> ratings;
+  final String? message;
   final double? height;
-  const CustomTabBar({super.key, this.height, required this.ratings});
+  const CustomTabBar({super.key, this.height, required this.ratings, this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class CustomTabBar extends StatelessWidget {
         tabs: const [Text('الاراء'), Text('الصور')],
         views: [
           // opinions
-          OpinionsList(ratings: ratings),
+          OpinionsList(ratings: ratings,message: message,),
           // images
           ImagesList(),
         ],

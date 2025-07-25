@@ -20,13 +20,16 @@ class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DetailsController detailsController = Get.put(
-      DetailsController(id: productModel.id,productModel: productModel),
+      DetailsController(id: productModel.id, productModel: productModel),
     );
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: GetBuilder(
-        init: DetailsController(id: productModel.id,productModel: productModel),
+        init: DetailsController(
+          id: productModel.id,
+          productModel: productModel,
+        ),
         builder: (controller) {
           return SafeArea(
             child: LayoutBuilder(
@@ -40,8 +43,8 @@ class DetailsScreen extends StatelessWidget {
                               'App\\Models\\Provider_Product'
                           ? false
                           : true,
-                      controller.productProviderModel?.vendor.user.id??1,
-                         controller.productProviderModel?.vendor.user.name??'',
+                      controller.productProviderModel?.vendor.user.id ?? 1,
+                      controller.productProviderModel?.vendor.user.name ?? '',
                     ),
                     // details
                     Positioned(
@@ -64,7 +67,15 @@ class DetailsScreen extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    DetailsService(productModel: productModel),
+                                    DetailsService(
+                                      productModel: productModel,
+                                      provider:
+                                          controller
+                                              .productProviderModel
+                                              ?.vendor
+                                              .user
+                                              .name,
+                                    ),
 
                                     //
                                     // tab bar
@@ -81,23 +92,17 @@ class DetailsScreen extends StatelessWidget {
                                         )
                                         : controller.statusRequest ==
                                             StatusRequest.failure
-                                        ? Center(
-                                          child: Text(
-                                            controller.message,
-                                            style: Styles.style3.copyWith(
-                                              color: Colors.red,
-                                            ),
-                                          ),
+                                        ? CustomTabBar(
+                                          message: controller.message,
+                                          ratings: controller.ratings,
+                                          height: constraints.maxHeight / 2.5,
                                         )
                                         : controller.statusRequest ==
                                             StatusRequest.offlineFailure
-                                        ? Center(
-                                          child: Text(
-                                            controller.message,
-                                            style: Styles.style3.copyWith(
-                                              color: Colors.red,
-                                            ),
-                                          ),
+                                        ? CustomTabBar(
+                                          message: controller.message,
+                                          ratings: controller.ratings,
+                                          height: constraints.maxHeight / 2.5,
                                         )
                                         : CustomTabBar(
                                           ratings: controller.ratings,

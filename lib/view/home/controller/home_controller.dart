@@ -39,7 +39,7 @@ class HomeController extends GetxController {
 
     getCategories();
     getProducts(perPage: 4);
-    getProductProviders(isInitialLoad: true);
+   // getProductProviders(isInitialLoad: true);
 
     // 🔁 ربط ScrollController الخاص بالقائمة الأفقية
     categoryScrollController.addListener(() {
@@ -151,7 +151,7 @@ class HomeController extends GetxController {
 
     Crud crud = Crud();
     var response = await crud.post(
-      '${ApiLinks.getCategories}?type=1',
+      '${ApiLinks.getCategories}',
       {},
       ApiLinks().getHeaderWithToken(),
     );

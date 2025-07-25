@@ -10,7 +10,8 @@ import 'cubon_row.dart';
 
 class DetailsService extends StatelessWidget {
   final ProductModel productModel;
-  const DetailsService({super.key, required this.productModel});
+  final String? provider;
+  const DetailsService({super.key, required this.productModel, this.provider});
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +42,13 @@ class DetailsService extends StatelessWidget {
           productModel.description,
           style: Styles.style6.copyWith(color: AppColors.primaryColorBold),
         ),
+        const SizedBox(height: 10),
+        productModel.providerableType != 'App\\Models\\Provider_Product'
+            ? SizedBox()
+            : Text(
+              'صاحب المنتج : $provider',
+              style: Styles.style6.copyWith(color: AppColors.primaryColorBold),
+            ),
         const SizedBox(height: 10),
 
         Row(

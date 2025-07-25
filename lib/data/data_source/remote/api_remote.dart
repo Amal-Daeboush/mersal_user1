@@ -42,6 +42,18 @@ class ApiRemote {
       (r) => r, // response كـ Map<String, dynamic> عند الفشل
     );
   }
+    Future<dynamic> updateInfo(Map<String, dynamic> data) async {
+    var response = await crud.post(
+      '${ApiLinks.postPass}',
+      data,
+      ApiLinks().getHeaderWithToken(),
+    );
+
+    return response.fold(
+      (l) => l, // StatusRequest.success أو StatusRequest.failure
+      (r) => r, // response كـ Map<String, dynamic> عند الفشل
+    );
+  }
 
   Future<dynamic> AddrateModel(Map<String, dynamic> data, String id) async {
     var response = await Crud().postData(

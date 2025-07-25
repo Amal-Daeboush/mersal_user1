@@ -96,10 +96,8 @@ class MyOrdersScreen extends StatelessWidget {
                                         Text('الملغاه'),
                                       ],
                                       views: [
-                                        controller.productOrders.isEmpty &&
-                                                controller
-                                                    .servicesOrders
-                                                    .isEmpty
+                                        controller.productOrders.isEmpty 
+                                               
                                             ? Center(
                                               child: Text('لا يوجد طلبات'),
                                             )
@@ -123,7 +121,7 @@ class MyOrdersScreen extends StatelessWidget {
                                               //   itemCount: controller.productOrders.length+controller.servicesOrders.length,
                                             ),
                                         //حجوزانت
-                                        controller.productOrders.isEmpty &&
+                                   
                                                 controller
                                                     .servicesOrders
                                                     .isEmpty

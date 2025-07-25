@@ -49,7 +49,6 @@ class CartController extends GetxController {
           }).toList(),
     };
 
-    // تمرير أول منتج فقط لاستخدامه في endpoint (كما لديك سابقًا)
     var response = await ApiRemote().orderProductModel(
       body,
       carts.first.productModel.id.toString(),
@@ -99,7 +98,6 @@ class CartController extends GetxController {
           ),
         );
 
-        /// ✅ تفريغ السلة بعد الطلب
         carts.clear();
         await MyServices().saveCartToStorage(carts);
         coupoun.clear();

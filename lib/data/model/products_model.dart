@@ -54,7 +54,7 @@ class ProductModel {
   final String name;
   final String description;
   final String price;
-  final String categoryId;
+  final dynamic categoryId;
   final String providerableType;
   final dynamic providerableId;
   final dynamic quantity;

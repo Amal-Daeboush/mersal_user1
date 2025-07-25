@@ -16,6 +16,7 @@ import 'package:mersal/core/constant/api_links.dart';
 import 'package:mersal/core/constant/const_data.dart';
 import 'package:mersal/core/sevices/key_shsred_perfences.dart';
 import 'package:mersal/core/sevices/sevices.dart';
+import 'package:mersal/data/data_source/remote/api_remote.dart';
 import 'package:mersal/view/botttom%20nav%20bar/view/bottom_nav_bar_screen.dart';
 import 'package:mersal/view/home/controller/home_controller.dart';
 import 'package:mersal/view/widgets/snack%20bar/custom_snack_bar.dart';
@@ -132,52 +133,49 @@ class AddressController extends GetxController {
       Crud crud = Crud();
       var response = await crud.post(ApiLinks.updateProfile, {
         'address': addressController.text,
-        'lang': '$longitude',
-        'lat': '$latitude',
+        // يمكنك هنا أيضاً إرسال الإحداثيات لو أردت
+        // 'lang': '$longitude',
+        // 'lat': '$latitude',
       }, ApiLinks().getHeaderWithToken());
 
       response.fold(
         (failure) {
-          if (failure == StatusRequest.offlineFailure) {
-            statusRequest = StatusRequest.offlineFailure;
-            message = 'تحقق من الاتصال بالانترنت';
-            Get.snackbar(
-              'Error',
-              message,
-              snackPosition: SnackPosition.TOP,
-            ); // عرض رسالة الخطأ
-          } else {
-            statusRequest = StatusRequest.failure;
-            message = 'حدث خطأ';
-            Get.snackbar(
-              'Error',
-              message,
-              snackPosition: SnackPosition.TOP,
-            ); // عرض رسالة الخطأ
-          }
+          statusRequest = failure;
+          message =
+              (failure == StatusRequest.offlineFailure)
+                  ? 'تحقق من الاتصال بالانترنت'
+                  : 'حدث خطأ';
+
+          Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);
           update();
         },
         (data) async {
           if (data != null && data is Map<dynamic, dynamic>) {
             var address = data['profile']['address'];
-
             await MyServices.saveValue(SharedPreferencesKey.address, address);
-
             await MyServices().setConstAddress();
-            //  HomeController homeController = Get.find<HomeController>();
-            //  homeController.addressUser = ConstData.addressUser;
-            //    homeController.addressUser.value = addressController.text;
-            statusRequest = StatusRequest.success;
-            Get.offAll(BottomNavBarScreen());
+
+            // 🔄 ثم نحاول رفع الإحداثيات
+            var mapStatus = await storemap();
+
+            if (mapStatus == StatusRequest.success) {
+              statusRequest = StatusRequest.success;
+              CustomSnackBar('تم تحديث العنوان بنجاح', true);
+              Get.offAll(BottomNavBarScreen());
+            } else {
+              statusRequest = StatusRequest.failure;
+              Get.snackbar(
+                'خطأ',
+                'تم تحديث العنوان، لكن فشل رفع الموقع الجغرافي',
+                backgroundColor: Colors.orange,
+                colorText: Colors.white,
+                snackPosition: SnackPosition.TOP,
+              );
+            }
           } else {
             statusRequest = StatusRequest.failure;
             message = 'حدث خطأ';
-
-            Get.snackbar(
-              'خطأ',
-              message,
-              snackPosition: SnackPosition.BOTTOM,
-            ); // عرض رسالة الخطأ
+            Get.snackbar('خطأ', message, snackPosition: SnackPosition.BOTTOM);
           }
           update();
         },
@@ -185,6 +183,29 @@ class AddressController extends GetxController {
     } else {
       Get.snackbar('خطأ', 'من فضلك ادخل عنوانك ');
       addressController.clear();
+    }
+  }
+
+  Future<StatusRequest> storemap() async {
+    statusRequest = StatusRequest.loading;
+    update();
+
+    var response = await ApiRemote().updateInfo({
+      '_method': 'PUT',
+      'lang': '$longitude',
+      'lat': '$latitude',
+    });
+
+    print("🚀 storemap response: $response");
+
+    // إذا كان response خريطة تحتوي على مفتاح message يشير إلى النجاح
+    if (response is Map &&
+        response['message'] == "تم تحديث معلومات المستخدم بنجاح") {
+      print("✅ تم رفع الموقع بنجاح");
+      return StatusRequest.success;
+    } else {
+      print("❌ فشل رفع الموقع");
+      return StatusRequest.failure;
     }
   }
 
@@ -201,18 +222,15 @@ class AddressController extends GetxController {
       var uri = Uri.parse(ApiLinks.storeProfile);
       var request = http.MultipartRequest("POST", uri);
 
-      // Headers with token
+      // Headers
       request.headers.addAll(ApiLinks().getHeaderWithToken());
 
       // Fields
       request.fields['address'] = addressController.text;
-      request.fields['lang'] = '$longitude';
-      request.fields['lat'] = '$latitude';
 
-      // Attach all selected images
-
+      // Add default image
       final byteData = await rootBundle.load('assets/images/user.png');
-      final Uint8List imageBytes = byteData.buffer.asUint8List();
+      final imageBytes = byteData.buffer.asUint8List();
 
       final multipartFile = http.MultipartFile.fromBytes(
         'image',
@@ -227,18 +245,28 @@ class AddressController extends GetxController {
       var responseData = await response.stream.bytesToString();
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        var decodeResponse = json.decode(responseData);
-        String address = decodeResponse['profile']['address'];
-
+        var decoded = json.decode(responseData);
+        String address = decoded['profile']['address'];
         await MyServices.saveValue(SharedPreferencesKey.address, address);
-
         await MyServices().setConstAddress();
 
-        //  HomeController homeController = Get.find<HomeController>();
-        CustomSnackBar('تم رفع المعلومات بنجاح', true);
+        // → تأجيل إظهار Snackbar حتى نجاح storemap()
+        var mapStatus = await storemap();
 
-        statusRequest = StatusRequest.success;
-        Get.offAll(BottomNavBarScreen());
+        if (mapStatus == StatusRequest.success) {
+          CustomSnackBar('تم رفع المعلومات بنجاح', true);
+          statusRequest = StatusRequest.success;
+          Get.offAll(BottomNavBarScreen());
+        } else {
+          // storemap فشلت
+          Get.snackbar(
+            'تنبيه',
+            'تم رفع المعلومات، لكن فشل رفع الإحداثيات',
+            backgroundColor: Colors.orange,
+            colorText: Colors.white,
+          );
+          statusRequest = StatusRequest.failure;
+        }
       } else {
         print(responseData);
         CustomSnackBar(
@@ -252,8 +280,7 @@ class AddressController extends GetxController {
       statusRequest = StatusRequest.failure;
       Get.snackbar(
         'خطأ',
-        'حدث خطأ أثناء رفع المعومات',
-        snackPosition: SnackPosition.TOP,
+        'حدث خطأ أثناء رفع المعلومات',
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );

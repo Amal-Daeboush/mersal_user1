@@ -26,9 +26,7 @@ class DetailsController extends GetxController {
 
   @override
   void onInit() {
-    if (productModel.providerableType != 'App\\Models\\Provider_Product') {
       getProvider();
-    }
     getRatings();
     super.onInit();
   }
@@ -55,7 +53,7 @@ class DetailsController extends GetxController {
                 ? 'تحقق من الاتصال بالانترنت'
                 : ' لا يوجد اراء';
 
-        Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);
+        Get.snackbar('', message, snackPosition: SnackPosition.TOP);
         update();
       },
       (data) {
@@ -156,7 +154,7 @@ class DetailsController extends GetxController {
 
     Crud crud = Crud();
     var response = await crud.getData(
-      '${ApiLinks.getProviderforservice}/${productModel.providerableId}',
+      '${productModel.providerableType != 'App\\Models\\Provider_Product' ? ApiLinks.getProviderforservice : ApiLinks.getProviderforproduct}/${productModel.providerableId}',
       ApiLinks().getHeaderWithToken(),
     );
 

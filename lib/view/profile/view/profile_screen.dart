@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mersal/core/constant/styles.dart';
 import 'package:mersal/core/sevices/sevices.dart';
+import 'package:mersal/view/address/view/address.dart';
 import 'package:mersal/view/app%20information/view/app_information.dart';
 import 'package:mersal/view/authentication/authentication/view/authentication_screen.dart';
 import 'package:mersal/view/profile/view/change_password_screen.dart';
@@ -44,7 +45,7 @@ class ProfileScreen extends StatelessWidget {
                         height: 1.h,
                         color: Color.fromARGB(200, 187, 187, 187),
                       ),
-                      CardInfo(id: 2),
+                      CardInfo(id: 2,onTap: () => Get.to(AddressScreen(isfromHome: true,),),),
                       Divider(
                         height: 1.h,
                         color: Color.fromARGB(200, 187, 187, 187),

@@ -32,14 +32,6 @@ class CartScreen extends StatelessWidget {
                   child: customLoadingIndictor(),
                 ),
               );
-            } else if (controller.statusRequest == StatusRequest.failure ||
-                controller.statusRequest == StatusRequest.offlineFailure) {
-              content = Center(
-                child: Text(
-                  controller.message,
-                  style: Styles.style3.copyWith(color: Colors.red),
-                ),
-              );
             } else if (controller.carts.isEmpty) {
               content = Padding(
                 padding: const EdgeInsets.only(top: 20),
@@ -84,8 +76,7 @@ class CartScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 10.h),
                 content,
-                if (controller.statusRequest == StatusRequest.success &&
-                    controller.carts.isNotEmpty)
+                if (controller.carts.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 5),
                     child: Center(
