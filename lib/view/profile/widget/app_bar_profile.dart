@@ -11,7 +11,8 @@ import '../../../core/constant/styles.dart';
 class AppBarProfile extends StatelessWidget {
   final TextEditingController? controller;
   final void Function(String)? onChanged;
-  const AppBarProfile({super.key, this.controller, this.onChanged});
+  final String name;
+  const AppBarProfile({super.key, this.controller, this.onChanged, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class AppBarProfile extends StatelessWidget {
           ),
           SizedBox(width: 15.w),
           Text(
-            ConstData.user?.user.name ?? 'user name',
+           name,
             style: Styles.style1.copyWith(color: AppColors.primaryColorBold),
           ),
           Spacer(),

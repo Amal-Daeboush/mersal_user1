@@ -11,6 +11,7 @@ import 'package:mersal/core/constant/const_data.dart';
 import 'package:mersal/core/sevices/key_shsred_perfences.dart';
 import 'package:mersal/core/sevices/sevices.dart';
 import 'package:mersal/view/botttom%20nav%20bar/view/bottom_nav_bar_screen.dart';
+import 'package:mersal/view/profile/controller/profile_controller.dart';
 import 'package:mersal/view/widgets/snack%20bar/custom_snack_bar.dart';
 
 class EditInfoProfileController extends GetxController {
@@ -24,7 +25,7 @@ class EditInfoProfileController extends GetxController {
   onInit() {
     super.onInit();
     name.text = ConstData.nameUser;
-    phone.text = ConstData.phoneUser ;
+    phone.text = ConstData.phoneUser;
   }
 
   Crud crud = Crud();
@@ -84,14 +85,15 @@ class EditInfoProfileController extends GetxController {
     }
   }
 
-  Future<dynamic> updateAddress() async {
+  Future<dynamic> updateName() async {
     if (keyForm.currentState!.validate()) {
       statusRequest = StatusRequest.loading;
       update();
 
       Crud crud = Crud();
-      var response = await crud.post(ApiLinks.updateProfile, {
+      var response = await crud.post(ApiLinks.postPass, {
         'name': name.text,
+        '_method':'PUT'
         //    'phone': phone.text,
       }, ApiLinks().getHeaderWithToken());
 
@@ -117,19 +119,34 @@ class EditInfoProfileController extends GetxController {
           update();
         },
         (data) async {
-          if (data != null && data is Map<dynamic, dynamic>) {
+          print("🎯 Response Data: $data");
+
+          if (data != null &&
+              data is Map<dynamic, dynamic> &&
+              data['user'] != null) {
             var name = data['user']['name'];
-            var phone = data['user']['phone'];
-             await MyServices.saveValue(SharedPreferencesKey.userName, name);
-   await MyServices.saveValue(SharedPreferencesKey.userPhone, phone);
-            await MyServices().setConstAddress();
-            //  HomeController homeController = Get.find<HomeController>();
-            //  homeController.addressUser = ConstData.addressUser;
-            //    homeController.addressUser.value = addressController.text;
+         //   var phone = data['user']['phone'];
+
+            await MyServices.saveValue(SharedPreferencesKey.userName, name);
+         //   await MyServices.saveValue(SharedPreferencesKey.userPhone, phone);
+
+            ConstData.nameUser = name;
+          //  ConstData.phoneUser = phone;
+
+            Get.find<ProfileController>().name = name;
+            Get.find<ProfileController>().update();
+
             statusRequest = StatusRequest.success;
-            Get.snackbar('نجاح', 'من تحديث  معلوماتك ');
+            Get.snackbar('نجاح', 'تم تحديث معلوماتك');
             Get.offAll(BottomNavBarScreen());
           } else {
+            statusRequest = StatusRequest.failure;
+            message = 'الاستجابة غير متوقعة';
+            Get.snackbar('خطأ', message);
+            update();
+          }
+
+          {
             statusRequest = StatusRequest.failure;
             message = 'حدث خطأ';
 

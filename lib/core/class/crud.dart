@@ -30,6 +30,15 @@ class Crud {
           if (saveToken) {
             var token = decodeResponse['access_token'];
             var user = UserModel.fromRawJson(response.body);
+               var name = user.user.name;
+         //   var phone = decodeResponse['data']['email'];
+            //  var name = user.user.name;
+
+            await MyServices().saveUserInfo(user);
+            await MyServices.saveValue(SharedPreferencesKey.userName, name);
+         //   await MyServices.saveValue(SharedPreferencesKey.userPhone, '678');
+
+            await MyServices().setConstName();
 
             await MyServices.saveValue(SharedPreferencesKey.tokenkey, token);
 

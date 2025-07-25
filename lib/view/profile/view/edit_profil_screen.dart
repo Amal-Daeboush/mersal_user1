@@ -67,7 +67,7 @@ class EditProfileScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text(ConstData.user!.user.name, style: Styles.style1),
+                          Text(ConstData.nameUser, style: Styles.style1),
                           SizedBox(height: 10.h),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -121,16 +121,17 @@ class EditProfileScreen extends StatelessWidget {
                           ),
                       
                           SizedBox(height: 10.h),
-                          CustomTextFormField(
+                       /*    CustomTextFormField(
                             controller: controller.phone,
                             hintText: 'رقم الهاتف',
                             obscureText: false,
                             isPassWord: false,
                           ),
-                          SizedBox(height: 10.h),
+                          SizedBox(height: 10.h), */
                       
                           SizedBox(height: 10.h),
                           CustomContainerButton(
+                            onTap: () => controller.updateName(),
                             borderColor: AppColors.primaryColor,
                             color: AppColors.primaryColor,
                             child: Text(
@@ -142,6 +143,7 @@ class EditProfileScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 10.h),
                           CustomContainerButton(
+                            onTap: () => Get.back(),
                             borderColor: AppColors.whiteColor2,
                             color: AppColors.whiteColor2,
                             child: Text(
