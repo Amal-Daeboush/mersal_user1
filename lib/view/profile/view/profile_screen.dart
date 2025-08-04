@@ -29,7 +29,7 @@ class ProfileScreen extends StatelessWidget {
             // mainAxisAlignment: MainAxisAlignment.start,
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppBarProfile(name: controller.name),
+              AppBarProfile(name: controller.name,image:controller.image),
               SizedBox(height: 20.h),
               Expanded(
                 child: Container(

@@ -35,6 +35,7 @@ successfulDialog(BuildContext context) {
             child: ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
+                 Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryColor,

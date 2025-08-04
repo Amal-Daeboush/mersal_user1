@@ -9,8 +9,9 @@ import '../../widgets/app bar/container_app_bar.dart';
 
 class FavouriteAppBar extends StatelessWidget {
   final TextEditingController? controller;
+  final bool isChatScreen;
   final void Function(String)? onChanged;
-  const FavouriteAppBar({super.key, this.controller, this.onChanged});
+  const FavouriteAppBar({super.key, this.controller, this.onChanged, required this.isChatScreen});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class FavouriteAppBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          IconButton(
+        IconButton(
             onPressed: () {
               Get.to(CartScreen());
             },
@@ -33,7 +34,7 @@ class FavouriteAppBar extends StatelessWidget {
             ),
           ),
           Text(
-            'المفضلة',
+       isChatScreen?"الرسائل"  :   'المفضلة',
             style: Styles.style6.copyWith(
               color: AppColors.whiteColor,
               fontWeight: FontWeight.w500,

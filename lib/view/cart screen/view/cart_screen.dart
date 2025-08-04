@@ -76,7 +76,7 @@ class CartScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 10.h),
                 content,
-                if (controller.carts.isNotEmpty)
+                if (controller.carts.isNotEmpty||controller.statusRequest!=StatusRequest.loading)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 5),
                     child: Center(

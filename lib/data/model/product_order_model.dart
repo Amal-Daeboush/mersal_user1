@@ -10,7 +10,7 @@ String orderProductModelToJson(OrderProductModel data) => json.encode(data.toJso
 
 class OrderProductModel {
     final int id;
-    final int userId;
+    final String userId;
     final int originalTotalPrice;
     final String totalPrice;
     final bool couponApplied;

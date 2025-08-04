@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:mersal/core/constant/app_image_asset.dart';
 import 'package:mersal/data/model/product_order_model.dart';
+import 'package:mersal/view/my%20order/view/details_order_screen.dart';
 
 import '../../../core/constant/app_colors.dart';
 import '../../../core/constant/styles.dart';
@@ -130,7 +132,7 @@ class MyOrderCard extends StatelessWidget {
                             ),
                           )
                           : SizedBox(),
-                          SizedBox(width: 10,),
+                      SizedBox(width: 10),
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5.r),
@@ -142,10 +144,14 @@ class MyOrderCard extends StatelessWidget {
                             horizontal: 10,
                           ),
                           child: Text(
+                             myOrdersModel.status == 'accepted'
+                                ?'مقبولة':
                             myOrdersModel.status == 'pending'
                                 ? 'نشطه'
                                 : myOrdersModel.status == 'cancelled'
                                 ? 'ملفاه'
+                                : myOrdersModel.status == 'on_way'
+                                ? 'قيد التوصيل'
                                 : 'مكتملة',
                             style: Styles.style5.copyWith(
                               color:
@@ -158,8 +164,32 @@ class MyOrderCard extends StatelessWidget {
                           ),
                         ),
                       ),
+                
+                    
                     ],
                   ),
+                        SizedBox(height: 10.w),
+                    GestureDetector(
+                        onTap: () =>Get.to(DetailsOrderScreen(id:myOrdersModel.id.toString())) ,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.r),
+                            border: Border.all(color: AppColors.border),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 2,
+                              horizontal: 10,
+                            ),
+                            child: Text(
+                              'عرض تفاصيل الطلب',
+                              style: Styles.style5.copyWith(
+                                color: Colors.green,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                 ],
               ),
             ],

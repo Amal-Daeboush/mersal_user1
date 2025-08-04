@@ -25,6 +25,7 @@ class FavoriteScreen extends StatelessWidget {
           return Column(
             children: [
               FavouriteAppBar(
+                isChatScreen: false,
                 controller: controller.searchController,
 
                 onChanged: (value) {
@@ -74,8 +75,8 @@ class FavoriteScreen extends StatelessWidget {
                   : controller.filteredFavourite.isEmpty
                   ? Center(
                     child: Text(
-                      'لا يوجد نتائج',
-                      style: Styles.style2.copyWith(color: Colors.red),
+                      'المفضلة فارغة',
+                      style: Styles.style1.copyWith(color: Colors.red),
                     ),
                   )
                   : Expanded(

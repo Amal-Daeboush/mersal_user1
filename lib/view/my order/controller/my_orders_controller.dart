@@ -11,7 +11,9 @@ class MyOrdersController extends GetxController {
   List<OrderProductModel> productOrders = [];
   List<OrderProductModel> activeOrders = [];
   List<OrderProductModel> cancelOrders = [];
+  List<OrderProductModel> onWayOrders = [];
   List<OrderProductModel> coupletOrders = [];
+   List<OrderProductModel> acceptedOrders = [];
   List<ServiceReservationModel> servicesOrders = [];
   List<ServiceReservationModel> servicesactiveOrders = [];
   List<ServiceReservationModel> servicescancelOrders = [];
@@ -65,12 +67,16 @@ class MyOrdersController extends GetxController {
                 productOrders
                     .where((item) => item.status == 'pending')
                     .toList();
-
+            onWayOrders =
+                productOrders.where((item) => item.status == 'on_way').toList();
             cancelOrders =
                 productOrders
                     .where((item) => item.status == 'cancelled')
                     .toList();
-
+  acceptedOrders =
+                productOrders
+                    .where((item) => item.status == 'accepted')
+                    .toList();
             coupletOrders =
                 productOrders
                     .where((item) => item.status == 'complete')
@@ -166,8 +172,8 @@ class MyOrdersController extends GetxController {
 
     if (response == StatusRequest.success) {
       Get.snackbar('نجاح', 'تم الغاء الطلب  ');
-         getOrderProduct();
-    getOrderServices();
+      getOrderProduct();
+      getOrderServices();
       //  getRatings();
       Navigator.pop(context); // ✅ إغلاق الديالوغ
     } else {
@@ -177,6 +183,7 @@ class MyOrdersController extends GetxController {
 
     update();
   }
+
 
   /*   void filterMFavourites(String query) {
     if (query.isEmpty) {
@@ -191,4 +198,5 @@ class MyOrdersController extends GetxController {
     }
     update();
   } */
+
 }

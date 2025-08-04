@@ -2,11 +2,11 @@ import 'dart:convert';
 
 class MessageModel {
     String message;
-    int senderId;
-    int receiverId;
-    DateTime createdAt;
+    String senderId;
+    String receiverId;
+    DateTime createdAt;  final bool isSending;
 
-    MessageModel({
+    MessageModel( {this.isSending=false,
         required this.message,
         required this.senderId,
         required this.receiverId,

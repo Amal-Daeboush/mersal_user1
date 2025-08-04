@@ -21,4 +21,5 @@ class ConstData {
   static String nameUser = '';
   static String phoneUser = '';
   static String addressUser = '';
+   static String otp = '';
 }

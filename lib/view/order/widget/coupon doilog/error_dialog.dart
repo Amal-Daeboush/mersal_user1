@@ -24,6 +24,7 @@ import 'package:flutter/material.dart';
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
+                      Navigator.pop(context);
                   },
                   child: const Text('إغلاق'),
                 ),

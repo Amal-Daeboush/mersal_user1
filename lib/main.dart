@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:mersal/core/sevices/key_shsred_perfences.dart';
 import 'package:mersal/routes.dart';
 import 'package:mersal/theme/app_themes.dart';
+import 'package:mersal/view/notifications%20screen/controller/notification_controller.dart';
 import 'package:mersal/view/restaurant%20screen/view/restaurants_screen.dart';
 import 'package:mersal/view/splash%20screen/view/splash_screen.dart';
 import 'bindings/initial_bindings.dart';
@@ -14,6 +16,15 @@ void main() async {
   await ScreenUtil.ensureScreenSize();
   await MyServices();
   await MyServices().initialize();
+  final userId = await MyServices.getValue(
+    SharedPreferencesKey.tokenkey,
+  ); // أو أي طريقة تحفظ بها اليوزر
+
+  if (userId != null) {
+    var controller = Get.put(NotificationController());
+    controller.loadNotifications(loadUnreadAlso: true);
+  }
+
   runApp(const MyApp());
 }
 

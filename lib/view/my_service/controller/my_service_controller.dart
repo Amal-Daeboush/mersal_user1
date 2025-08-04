@@ -2,18 +2,10 @@ import 'package:get/get.dart';
 import 'package:mersal/core/class/crud.dart';
 import 'package:mersal/core/class/status_request.dart';
 import 'package:mersal/core/constant/api_links.dart';
-import 'package:mersal/data/model/category_model.dart';
-
 import 'package:flutter/material.dart';
 import 'package:mersal/data/model/products_model.dart'; // assuming this is where ProductsModel is defined
 
-import 'package:get/get.dart';
-import 'package:mersal/core/class/crud.dart';
-import 'package:mersal/core/class/status_request.dart';
-import 'package:mersal/core/constant/api_links.dart';
-import 'package:mersal/data/model/category_model.dart';
-import 'package:mersal/data/model/products_model.dart';
-import 'package:flutter/material.dart';
+
 
 class MyServiceController extends GetxController {
   final int id;
@@ -86,7 +78,7 @@ class MyServiceController extends GetxController {
           final parsed = ProductsModelModel.fromJson(
             Map<String, dynamic>.from(data),
           );
-          products.addAll(parsed.data!);
+          products.addAll(parsed.data);
           currentPage = parsed.currentPage;
           lastPage = parsed.lastPage; // ✅ يتم حسابه تلقائيًا
           statusRequest = StatusRequest.success;

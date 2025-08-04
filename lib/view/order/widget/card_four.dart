@@ -48,10 +48,10 @@ class CardFour extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(5)),
                     color: AppColors.primaryColor,
                   ),
-                  child: const Padding(
+                  child:  Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     child: Text(
-                      'إضافة',
+                  coupon.text.isEmpty?   'إضافة':'تم الاضافة',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),

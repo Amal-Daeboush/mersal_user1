@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mersal/data/model/favourite_model.dart' as Fav;
 import '../../../core/constant/app_colors.dart';
-import '../../../core/constant/app_image_asset.dart';
 import '../../../core/constant/styles.dart';
 
 class CardFavorite extends StatelessWidget {
@@ -19,8 +18,8 @@ class CardFavorite extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                AppImageAsset.im1,
+              child: Image.network(
+              favouriteModel.images.first.imag,
                 width: 180.w,
                 height: 120.h,
                 fit: BoxFit.cover,

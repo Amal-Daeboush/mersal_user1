@@ -13,7 +13,7 @@ class BottomNavController extends GetxController {
 
   final List<Widget> pages = [
     const HomeScreen(),
- const   ChatsScreen(),
+ const   ChatScreen(),
     const MyOrdersScreen(),
     const FavoriteScreen(),
     const ProfileScreen(),

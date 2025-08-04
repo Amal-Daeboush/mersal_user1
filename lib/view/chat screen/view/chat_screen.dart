@@ -3,70 +3,72 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mersal/core/class/status_request.dart';
 import 'package:mersal/core/constant/styles.dart';
-import 'package:mersal/view/chat%20screen/controller/chat_controller.dart';
 import 'package:mersal/view/chat%20screen/view/your_chat_screen.dart';
+import 'package:mersal/view/chat%20screen/widgets/custom_chat.dart';
+import 'package:mersal/view/favourite/controller/favourite_controller.dart';
+import 'package:mersal/view/favourite/widget/card_favorite.dart';
 import 'package:mersal/view/widgets/custom_loading.dart';
+import 'package:mersal/view/widgets/shimmer/product_shimmer.dart';
+import '../../favourite/widget/favourite_app_bar.dart';
+import '../controller/chat_controller.dart' show ChatController;
 
-import '../../../core/constant/app_colors.dart';
-import '../../widgets/field search/custom_field_search.dart';
-import '../widgets/custom_chat.dart';
 
-class ChatsScreen extends StatelessWidget {
-  const ChatsScreen({super.key});
+class ChatScreen extends StatelessWidget {
+  const ChatScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
+    final FavouriteController controller = Get.find();
+
+    // استدعاء التحديث مباشرة عند بناء الصفحة
+    controller.getFavorites();
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'محادثاتك',
-          style: Styles.style1.copyWith(color: AppColors.black),
-        ),
-      ),
-          body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5),
-        child: GetBuilder<ChatController>(
+      body: GetBuilder<ChatController>(
           init: ChatController(),
-          builder: (controller) {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 30, left: 10),
-                    child: CustomFieldSearch(
-                      controller: controller.searchController,
-                      isorderScreen: true,
-                      onChanged: (value) {
+        builder: (controller) {
+          return Column(
+            children: [
+              FavouriteAppBar(
+                isChatScreen: true,
+                controller: controller.searchController,
+
+               onChanged: (value) {
                         controller.filterMessages(value);
                       },
+              ),
+              SizedBox(height: 10.h),
+              controller.statusRequest == StatusRequest.loading
+                  ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 120,vertical: 20),
+                    child: customLoadingIndictor(),
+                  )
+                  : controller.statusRequest == StatusRequest.failure
+                  ? Center(
+                    child: Text(
+                      controller.message,
+                      style: Styles.style3.copyWith(color: Colors.red),
                     ),
-                  ),
-                  controller.statusRequest == StatusRequest.loading
-                      ? Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 150,
-                          vertical: 15,
-                        ),
-                        child: customLoadingIndictor(),
-                      )
-                      : controller.statusRequest == StatusRequest.failure
-                      ? Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 50),
-                          child: Text(controller.message, style: Styles.style1),
-                        ),
-                      )
-                      : controller.filteredMessages.isEmpty
-                      ? Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 50),
-                          child: Text(
-                            'لا يوجد رسائل بعد',
-                            style: Styles.style1,
-                          ),
-                        ),
-                      )
-                      : ListView.separated(
+                  )
+                  : controller.statusRequest == StatusRequest.offlineFailure
+                  ? Center(
+                    child: Text(
+                      controller.message,
+                      style: Styles.style3.copyWith(color: Colors.red),
+                    ),
+                  )
+                  : controller.filteredMessages.isEmpty
+                  ? Center(
+                    child: Text(
+                      'لا يوجد رسائل بعد',
+                      style: Styles.style1.copyWith(color: Colors.red),
+                    ),
+                  )
+                  : Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         separatorBuilder:
@@ -99,12 +101,13 @@ class ChatsScreen extends StatelessWidget {
                           );
                         },
                       ),
-                ],
-              ),
-            );
-          },
-        ),
-      ), 
+                      ),
+                    ),
+                  ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

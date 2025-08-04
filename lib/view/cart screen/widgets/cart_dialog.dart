@@ -9,8 +9,8 @@ void showOrderDialogWithCoupon({
   required BuildContext context,
   required CartController controller,
 }) {
-  bool hasCoupon = false;
-  TextEditingController couponController = TextEditingController();
+ // bool hasCoupon = false;
+  //TextEditingController couponController = TextEditingController();
   TextEditingController noteController = TextEditingController();
   showDialog(
     context: context,

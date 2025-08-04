@@ -78,7 +78,7 @@ class YourChatController extends GetxController {
     pusher = PusherChannelsFlutter();
 
     await pusher.init(
-      apiKey: "10d216ea57c8cc5c5030",
+      apiKey: "af4ff5b03e590e827cbe",
       cluster: "eu",
       onConnectionStateChange: (String currentState, String previousState) {
         print("Current: $currentState | Previous: $previousState");
@@ -124,40 +124,54 @@ class YourChatController extends GetxController {
   }
 
   Future<void> sendMessage() async {
-    String messageText = messageController.text.trim();
+  String messageText = messageController.text.trim();
 
-    if (messageText.isEmpty) {
-      Get.snackbar('خطأ', 'لا يمكن ارسال رسالة فارغة');
-      return;
-    }
+  if (messageText.isEmpty) {
+    Get.snackbar('خطأ', 'لا يمكن ارسال رسالة فارغة');
+    return;
+  }
 
-    statusRequest = StatusRequest.loading;
-    update();
+  // ✨ أضف الرسالة مؤقتًا مباشرة
+  MessageModel tempMessage = MessageModel(
+    createdAt: DateTime.now(),
+    message: messageText,
+    receiverId: id,
+    senderId: ConstData.userid,
+    isSending: true, // هذا حقل مخصص لتمييزها كـ "قيد الإرسال"
+  );
 
-    var response = await sendMessageToServer({'message': messageText});
+  messages.add(tempMessage);
+  messageController.clear();
+  _chatStreamController.add(List<MessageModel>.from(messages));
+  update();
 
-    if (response == StatusRequest.success) {
-      MessageModel newMessage = MessageModel(
+  // 👇 أرسلها إلى الخادم
+  var response = await sendMessageToServer({'message': messageText});
+
+  if (response == StatusRequest.success) {
+    // ✅ نجاح الإرسال: عدل حالة الرسالة
+    final index = messages.indexOf(tempMessage);
+    if (index != -1) {
+      messages[index] = MessageModel(
         createdAt: DateTime.now(),
         message: messageText,
-        receiverId: int.parse(id),
-        senderId: int.parse(ConstData.userid),
+        receiverId: id,
+        senderId: ConstData.userid,
       );
-      messages.add(newMessage);
-      messageController.clear();
-
-      statusRequest = StatusRequest.success;
-      _chatStreamController.add(List<MessageModel>.from(messages));
-    } else if (response is String) {
-      Get.snackbar('خطأ', response);
-      statusRequest = StatusRequest.failure;
-    } else {
-      Get.snackbar('خطأ', 'حدث خطأ غير متوقع');
-      statusRequest = StatusRequest.failure;
     }
 
-    update();
+    statusRequest = StatusRequest.success;
+  } else {
+    // ❌ فشل: احذف الرسالة المؤقتة وأبلغ المستخدم
+    messages.remove(tempMessage);
+    Get.snackbar('خطأ', 'فشل إرسال الرسالة');
+    statusRequest = StatusRequest.failure;
   }
+
+  _chatStreamController.add(List<MessageModel>.from(messages));
+  update();
+}
+
 
   Future<dynamic> sendMessageToServer(Map<String, dynamic> data) async {
     var response = await crud.postData(

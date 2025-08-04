@@ -16,6 +16,8 @@ class MyServices extends GetxService {
     shared = await SharedPreferences.getInstance();
     ConstData.cart = await loadCartFromStorage();
     ConstData.token = await getValue(SharedPreferencesKey.tokenkey) ?? '';
+    ConstData.otp = await getValue(SharedPreferencesKey.otp) ?? '';
+
     ConstData.addressUser = await getValue(SharedPreferencesKey.address) ?? '';
     ConstData.nameUser = await getValue(SharedPreferencesKey.userName) ?? '';
     ConstData.phoneUser = await getValue(SharedPreferencesKey.userPhone) ?? '';
@@ -65,6 +67,13 @@ class MyServices extends GetxService {
     print('your address is ......');
     print(ConstData.addressUser);
     return ConstData.addressUser;
+  }
+
+  setConstOtp() async {
+    ConstData.otp = await getValue(SharedPreferencesKey.otp) ?? '';
+    print('your otp is ......');
+    print(ConstData.otp);
+    return ConstData.otp;
   }
 
   setConstPhone() async {

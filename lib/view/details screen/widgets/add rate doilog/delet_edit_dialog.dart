@@ -22,7 +22,7 @@ void showDeleteDialogDialog(
             borderRadius: BorderRadius.circular(15),
           ),
           title: Center(
-            child: Text('عدل او احذف المنتج', style: Styles.style1),
+            child: Text('عدل او احذف التقييم', style: Styles.style1),
           ),
 
           content: Stack(
@@ -37,8 +37,10 @@ void showDeleteDialogDialog(
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                        //  Navigator.pop(context);  
+                         Get.back();
                           showEditRateDialog(context, replay, controller);
+                       
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
@@ -60,6 +62,7 @@ void showDeleteDialogDialog(
                           await controller.deleteRate(
                             replay.id.toString(),
                             replay.id.toString(),
+                            context
                           );
                         },
                         child: Padding(

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:mersal/core/class/crud.dart';
 import 'package:mersal/core/class/status_request.dart';
 import 'package:mersal/core/constant/api_links.dart';
-import 'package:mersal/data/model/product_providers.dart';
 import 'package:mersal/data/model/products_model.dart';
 import 'package:mersal/data/model/rating_model.dart';
 import 'package:mersal/data/model/service_provider_model.dart';
@@ -36,62 +35,53 @@ class DetailsController extends GetxController {
     update();
 
     Crud crud = Crud();
-    var response = await crud.getData(
+    var response = await crud.getData404(
       '${ApiLinks.getRating}/$id',
       ApiLinks().getHeaderWithToken(),
     );
 
-    response.fold(
-      (failure) {
-        statusRequest = StatusRequest.failure;
+   response.fold(
+  (failure) {
+    statusRequest = StatusRequest.failure;
 
-        // If you want to extract the error message from the failure,
-        // you might need to change your getData method to pass it.
-        // For now, fallback to generic messages:
-        message =
-            failure == StatusRequest.offlineFailure
-                ? 'تحقق من الاتصال بالانترنت'
-                : ' لا يوجد اراء';
+    message = failure == StatusRequest.offlineFailure
+        ? 'تحقق من الاتصال بالانترنت'
+        : 'حدث خطأ في جلب البيانات';
 
-        Get.snackbar('', message, snackPosition: SnackPosition.TOP);
-        update();
-      },
-      (data) {
-        if (data != null && data is Map<String, dynamic>) {
-          if (data.containsKey('message') &&
-              data['message'] == 'No rating found for this product') {
-            // Handle the API message for no ratings found explicitly
-            statusRequest = StatusRequest.failure;
-            message = data['message'];
-            ratings = [];
-            Get.snackbar('تنبيه', message, snackPosition: SnackPosition.BOTTOM);
-          } else {
-            var dataList = data["data"];
-            if (dataList is List && dataList.isNotEmpty) {
-              ratings =
-                  dataList.map((item) => RatingsModel.fromJson(item)).toList();
-              statusRequest = StatusRequest.success;
-            } else {
-              statusRequest = StatusRequest.failure;
-              message = 'لا توجد اراء.';
-              ratings = [];
-              Get.snackbar(
-                'تنبيه',
-                message,
-                snackPosition: SnackPosition.BOTTOM,
-              );
-            }
-          }
+    Get.snackbar('', message, snackPosition: SnackPosition.TOP);
+    update();
+  },
+  (data) {
+    if (data != null && data is Map<String, dynamic>) {
+      if (data.containsKey('message') && data['message'] == 'No rating found for this product') {
+        // حالة 404 مع رسالة عدم وجود تقييمات
+        statusRequest = StatusRequest.success; // أو failure حسب تفضيلك
+        message = 'لا توجد تعليقات لهذا المنتج';
+        ratings = [];
+        Get.snackbar('تنبيه', message, snackPosition: SnackPosition.BOTTOM);
+      } else {
+        var dataList = data["data"];
+        if (dataList is List && dataList.isNotEmpty) {
+          ratings = dataList.map((item) => RatingsModel.fromJson(item)).toList();
+          statusRequest = StatusRequest.success;
         } else {
-          // data = null or not Map<String, dynamic>
           statusRequest = StatusRequest.failure;
-          message = 'حدث خطأ في جلب البيانات.';
+          message = 'لا توجد تعليقات.';
           ratings = [];
-          Get.snackbar('خطأ', message, snackPosition: SnackPosition.BOTTOM);
+          Get.snackbar('تنبيه', message, snackPosition: SnackPosition.BOTTOM);
         }
-        update();
-      },
-    );
+      }
+    } else {
+      statusRequest = StatusRequest.failure;
+      message = 'حدث خطأ في جلب البيانات.';
+      ratings = [];
+      Get.snackbar('خطأ', message, snackPosition: SnackPosition.BOTTOM);
+    }
+    update();
+  },
+);
+
+    
   }
 
   void addRate(BuildContext context) async {
@@ -121,32 +111,46 @@ class DetailsController extends GetxController {
     update();
   }
 
-  Future<void> deleteRate(String replayId, String rateId) async {
-    isLoading.value = true;
-    var result = await ApiRemote().deleteReplay({}, replayId);
-    if (result == StatusRequest.success) {
-      Get.snackbar('تم', 'تم حذف التقييم');
-      await getRatings();
-    } else {
-      Get.snackbar('خطأ', 'فشل الحذف');
-    }
-    isLoading.value = false;
+  Future<void> deleteRate(String replayId, String rateId, BuildContext context) async {
+  isLoading.value = true;
+  update();
+
+   // ✅ أغلق أولاً
+
+  var result = await ApiRemote().deleteReplay({}, replayId);
+
+  if (result == StatusRequest.success) {
+    Get.snackbar('تم', 'تم حذف التقييم'); Get.back(); 
+    await getRatings();
+  } else {
+    Get.snackbar('خطأ', 'فشل الحذف'); Get.back(); 
   }
 
-  Future<void> editRate(String replayId, String newComment) async {
-    isLoading.value = true;
-    var result = await ApiRemote().editReplay(replayId, {
-      'comment': newComment,
-      '_method': 'PUT',
-    });
-    if (result == StatusRequest.success) {
-      Get.snackbar('تم', 'تم تعديل الرد');
-      await getRatings();
-    } else {
-      Get.snackbar('خطأ', 'فشل التعديل');
-    }
+  isLoading.value = false;
+  update();
+}
+
+
+  Future<void> editRate(String replayId, String newComment, BuildContext context) async {
+  isLoading.value = true;
+  update();
+
+  var result = await ApiRemote().editReplay(replayId, {
+    'comment': newComment,
+    '_method': 'PUT',
+  });
+
+  if (result == StatusRequest.success) {
+    Get.snackbar('تم', 'تم تعديل الرد'); Get.back();  
+    await getRatings(); isLoading.value = false;
+    update();
+   // ✅ بعد التحديث
+  } else {
+    Get.snackbar('خطأ', 'فشل التعديل'); Get.back(); 
     isLoading.value = false;
+    update();
   }
+}
 
   getProvider() async {
     statusRequest = StatusRequest.loading;

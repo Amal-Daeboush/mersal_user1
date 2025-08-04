@@ -1,37 +1,62 @@
+// To parse this JSON data, do
+//
+//     final notificationModel = notificationModelFromJson(jsonString);
+
 import 'dart:convert';
 
+NotificationModel notificationModelFromJson(String str) => NotificationModel.fromJson(json.decode(str));
+
+String notificationModelToJson(NotificationModel data) => json.encode(data.toJson());
+
 class NotificationModel {
-  String image;
-  String text;
-  DateTime date;
-  String redirection;
-  bool isRead;
+    int? id;
+    String? userId;
+    String? notification;
+    String? status;
+    DateTime? createdAt;
+    DateTime? updatedAt;
 
-  NotificationModel(
-      {required this.image,
-      required this.text,
-      required this.date,
-      required this.redirection,
-      required this.isRead});
+    NotificationModel({
+        this.id,
+        this.userId,
+        this.notification,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+    });
 
-  factory NotificationModel.fromRawJson(String str) =>
-      NotificationModel.fromJson(json.decode(str));
+    NotificationModel copyWith({
+        int? id,
+        String? userId,
+        String? notification,
+        String? status,
+        DateTime? createdAt,
+        DateTime? updatedAt,
+    }) => 
+        NotificationModel(
+            id: id ?? this.id,
+            userId: userId ?? this.userId,
+            notification: notification ?? this.notification,
+            status: status ?? this.status,
+            createdAt: createdAt ?? this.createdAt,
+            updatedAt: updatedAt ?? this.updatedAt,
+        );
 
-  String toRawJson() => json.encode(toJson());
+    factory NotificationModel.fromJson(Map<String, dynamic> json) => NotificationModel(
+        id: json["id"],
+        userId: json["user_id"],
+        notification: json["notification"],
+        status: json["status"],
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    );
 
-  factory NotificationModel.fromJson(Map<String, dynamic> json) =>
-      NotificationModel(
-          image: json["image"],
-          text: json["text"],
-          date: DateTime.parse(json["data"]), // Convert string to DateTime
-          redirection: json["redirection"],
-          isRead: json['isRead']);
-
-  Map<String, dynamic> toJson() => {
-        "image": image,
-        "text": text,
-        "data": date,
-        "redirection": redirection,
-        'isread': isRead
-      };
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "user_id": userId,
+        "notification": notification,
+        "status": status,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+    };
 }

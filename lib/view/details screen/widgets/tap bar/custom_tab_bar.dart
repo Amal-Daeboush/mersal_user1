@@ -1,5 +1,6 @@
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'package:flutter/material.dart';
+import 'package:mersal/data/model/products_model.dart' as Product;
 import 'package:mersal/data/model/rating_model.dart';
 
 import '../../../../core/constant/app_colors.dart';
@@ -9,8 +10,9 @@ import 'opinions_list.dart';
 class CustomTabBar extends StatelessWidget {
   final List<RatingsModel> ratings;
   final String? message;
+    final List<Product.Image> images;
   final double? height;
-  const CustomTabBar({super.key, this.height, required this.ratings, this.message});
+  const CustomTabBar({super.key, this.height, required this.ratings, this.message, required this.images});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class CustomTabBar extends StatelessWidget {
           // opinions
           OpinionsList(ratings: ratings,message: message,),
           // images
-          ImagesList(),
+          ImagesList(images: images,),
         ],
       ),
     );

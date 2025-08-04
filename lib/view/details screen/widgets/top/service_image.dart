@@ -3,9 +3,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:mersal/view/cart%20screen/view/cart_screen.dart';
 import 'package:mersal/view/chat%20screen/view/your_chat_screen.dart';
-
 import '../../../../core/constant/app_colors.dart';
-import '../../../../core/constant/app_image_asset.dart';
 import 'icon_image.dart';
 
 Widget ServiceImage(
@@ -14,6 +12,7 @@ Widget ServiceImage(
   bool service,
   int id,
   String name,
+  String image
 ) {
   return SizedBox(
     width: screenWidth,
@@ -23,8 +22,8 @@ Widget ServiceImage(
         Container(color: Colors.grey[200]),
         Stack(
           children: [
-            Image.asset(
-              AppImageAsset.im2,
+            Image.network(
+            image,
               width: screenWidth,
               height: screenHeight / 3,
               fit: BoxFit.cover,

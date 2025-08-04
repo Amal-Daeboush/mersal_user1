@@ -7,11 +7,13 @@ import 'package:mersal/core/constant/app_image_asset.dart';
 import 'package:mersal/core/constant/const_data.dart';
 import 'package:mersal/core/constant/styles.dart';
 import 'package:mersal/view/address/view/address.dart';
+import 'package:mersal/view/details%20screen/view/details_screen.dart';
 import 'package:mersal/view/favourite/controller/favourite_controller.dart';
 import 'package:mersal/view/home/controller/home_controller.dart';
 import 'package:mersal/view/home/view/all_product_screen.dart';
 import 'package:mersal/view/home/widgets/categories_shimmer.dart';
 import 'package:mersal/view/home/widgets/card_top_product.dart';
+import 'package:mersal/view/home/widgets/restaurant_card.dart';
 import 'package:mersal/view/restaurant%20screen/view/restaurants_screen.dart';
 import 'package:mersal/view/widgets/app%20bar/container_app_bar.dart';
 import 'package:mersal/view/widgets/shimmer/product_shimmer.dart';
@@ -140,7 +142,47 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ),
                             )
-                            : SizedBox(
+                            : SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children:
+                                    controller.filteredCategories
+                                        .map(
+                                          (cat) => Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 5,
+                                            ),
+                                            child: GestureDetector(
+                                              //  splashColor: Colors.transparent,
+                                              onTap:
+                                                  cat.type == '2'
+                                                      ? () {
+                                                        Get.to(
+                                                          RestaurantsScreen(
+                                                            id: cat.id,
+                                                          ),
+                                                        );
+                                                      }
+                                                      : () => Get.to(
+                                                        MyserviceScreen(
+                                                          isProductProv: false,
+                                                          id: cat.id,
+                                                          title: cat.name,
+                                                        ),
+                                                      ),
+                                              child: CustomService(
+                                                id: cat.id,
+                                                isSelected: false,
+                                                name: cat.name,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
+                              ),
+                            ),
+
+                        /* ?SizedBox(
                               height: 100.h,
                               child: ListView.builder(
                                 controller: controller.categoryScrollController,
@@ -152,8 +194,9 @@ class HomeScreen extends StatelessWidget {
                                     (controller.isLoadingMoreProvider ? 1 : 0),
                                 itemBuilder: (context, index) {
                                   if (index == 0) {
+                                    return SizedBox();
                                     // 🔵 عنصر "مطاعم"
-                                    return Padding(
+                                    /*  return Padding(
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: 8,
                                       ),
@@ -171,7 +214,7 @@ class HomeScreen extends StatelessWidget {
                                           name: 'مطاعم',
                                         ),
                                       ),
-                                    );
+                                    ); */
                                   }
 
                                   int adjustedIndex =
@@ -220,13 +263,21 @@ class HomeScreen extends StatelessWidget {
                                       child: InkWell(
                                         splashColor: Colors.transparent,
                                         onTap:
-                                            () => Get.to(
-                                              MyserviceScreen(
-                                                isProductProv: false,
-                                                id: cat.id,
-                                                title: cat.name,
-                                              ),
-                                            ),
+                                            cat.type == '2'
+                                                ? () {
+                                                  Get.to(
+                                                    RestaurantsScreen(
+                                                      id: cat.id,
+                                                    ),
+                                                  );
+                                                }
+                                                : () => Get.to(
+                                                  MyserviceScreen(
+                                                    isProductProv: false,
+                                                    id: cat.id,
+                                                    title: cat.name,
+                                                  ),
+                                                ),
                                         child: CustomService(
                                           id: cat.id,
                                           isSelected: false,
@@ -245,8 +296,7 @@ class HomeScreen extends StatelessWidget {
                                   }
                                 },
                               ),
-                            ),
-
+                            ), */
                         const SizedBox(height: 10),
                         CustomRowText(
                           onTap: () => Get.to(AllProductScreen()),
@@ -275,6 +325,12 @@ class HomeScreen extends StatelessWidget {
                                               horizontal: 5,
                                             ),
                                             child: CardTopProduct(
+                                              ontap:
+                                                  () => Get.to(
+                                                    DetailsScreen(
+                                                      productModel: product,
+                                                    ),
+                                                  ),
                                               height: 100.h,
                                               favoriteFunction:
                                                   () => favouriteController
@@ -291,69 +347,7 @@ class HomeScreen extends StatelessWidget {
                         SizedBox(height: 15.h),
                         CustomRichText(),
                         SizedBox(height: 5.h),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              color: AppColors.primaryColorWithOpacity,
-                            ),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'اطلب من مطاعمك \nالمفضله الان',
-                                        style: Styles.style4.copyWith(
-                                          color: AppColors.primaryColorBold,
-                                        ),
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () {},
-                                        style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              5,
-                                            ),
-                                          ),
-                                          backgroundColor:
-                                              AppColors.primaryColor,
-                                          padding: EdgeInsets.zero,
-                                        ),
-                                        child: Text(
-                                          'اطلب الان',
-                                          style: Styles.style4.copyWith(
-                                            color: AppColors.whiteColor,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      bottomLeft: Radius.circular(10),
-                                    ),
-                                    child: Image.asset(
-                                      AppImageAsset.off_Image,
-                                      height: 130.h,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        RestaurantCard(),
                         SizedBox(height: 50.h),
                       ],
                     ),

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mersal/data/model/products_model.dart' as productModel;
-
 import '../../../core/constant/app_colors.dart';
-import '../../../core/constant/app_image_asset.dart';
 import '../../../core/constant/styles.dart';
 
 class CardMyService extends StatelessWidget {
@@ -24,8 +22,8 @@ class CardMyService extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                AppImageAsset.im1,
+              child: Image.network(
+                ProductModel.images.first.url,
                 width: 180.w,
                 height: 120.h,
                 fit: BoxFit.cover,

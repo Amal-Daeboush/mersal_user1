@@ -9,8 +9,8 @@ import 'package:mersal/core/class/status_request.dart';
 import 'package:mersal/view/my%20order/controller/my_orders_controller.dart';
 import 'package:mersal/view/my%20order/widgets/cancel_order_dialog.dart';
 import 'package:mersal/view/my%20order/widgets/my_order_card.dart';
+import 'package:mersal/view/my%20order/widgets/order_shimmer.dart';
 import 'package:mersal/view/my%20order/widgets/services_card.dart';
-import 'package:mersal/view/widgets/custom_loading.dart';
 import '../../../core/constant/app_colors.dart';
 import '../../../core/constant/styles.dart';
 
@@ -62,184 +62,331 @@ class MyOrdersScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            controller.statusRequest == StatusRequest.loading
-                                ? Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 150,
-                                    vertical: 100,
-                                  ),
-                                  child: Center(child: customLoadingIndictor()),
-                                )
-                                : SizedBox(
-                                  height:
-                                      constraints.maxHeight -
-                                      (HelperFunctions.screenHeight() / 3.5),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 20),
-                                    child: ContainedTabBarView(
-                                      tabBarProperties: TabBarProperties(
-                                        height: 40,
-                                        padding: EdgeInsets.only(bottom: 10),
-                                        indicatorWeight: 1,
-                                        labelStyle: Styles.style5.copyWith(
-                                          color: AppColors.black,
-                                        ),
-                                        unselectedLabelStyle: Styles.style5
-                                            .copyWith(color: AppColors.black),
-                                        indicatorColor: AppColors.primaryColor,
-                                      ),
-                                      tabs: const [
-                                        Text('جميع الطلبات'),
-                                        Text('جميع الحجوزات'),
-                                        Text('النشطه'),
-                                        Text('المكتمله'),
-                                        Text('الملغاه'),
-                                      ],
-                                      views: [
-                                        controller.productOrders.isEmpty 
-                                               
-                                            ? Center(
-                                              child: Text('لا يوجد طلبات'),
-                                            )
-                                            : ListView(
-                                              children: [
-                                                ...controller.productOrders
-                                                    .map(
-                                                      (e) => MyOrderCard(
-                                                          cancel: () {
-                                                          CancelOrderDialog(
-                                                            context,
-                                                            e.id.toString(),
-                                                          );
-                                                        },
-                                                        myOrdersModel: e,
-                                                      ),
-                                                    )
-                                                    .toList(),
-                                              ],
-
-                                              //   itemCount: controller.productOrders.length+controller.servicesOrders.length,
-                                            ),
-                                        //حجوزانت
-                                   
-                                                controller
-                                                    .servicesOrders
-                                                    .isEmpty
-                                            ? Center(
-                                              child: Text('لا يوجد حجوزات'),
-                                            )
-                                            : ListView(
-                                              children: [
-                                                ...controller.servicesOrders
-                                                    .map(
-                                                      (e) => ServiceOrderCard(
-                                                        serviceModel: e,
-                                                      ),
-                                                    )
-                                                    .toList(),
-                                              ],
-
-                                              //   itemCount: controller.productOrders.length+controller.servicesOrders.length,
-                                            ),
-                                        // الطلبات النشطة
-                                        controller.activeOrders.isEmpty &&
-                                                controller
-                                                    .servicesactiveOrders
-                                                    .isEmpty
-                                            ? Center(
-                                              child: Text(
-                                                ' لا يوجد طلبات نشطة',
-                                              ),
-                                            )
-                                            : ListView(
-                                              children: [
-                                                ...controller.activeOrders
-                                                    .map(
-                                                      (e) => MyOrderCard(
-                                                        cancel: () {
-                                                          CancelOrderDialog(
-                                                            context,
-                                                            e.id.toString(),
-                                                          );
-                                                        },
-                                                        myOrdersModel: e,
-                                                      ),
-                                                    )
-                                                    .toList(),
-                                                ...controller
-                                                    .servicesactiveOrders
-                                                    .map(
-                                                      (e) => ServiceOrderCard(
-                                                        serviceModel: e,
-                                                      ),
-                                                    )
-                                                    .toList(),
-                                              ],
-                                            ),
-
-                                        // الطلبات المكتملة
-                                        controller.coupletOrders.isEmpty &&
-                                                controller
-                                                    .servicescoupletOrders
-                                                    .isEmpty
-                                            ? Center(
-                                              child: Text(
-                                                ' لا يوجد طلبات مكتملة',
-                                              ),
-                                            )
-                                            : ListView(
-                                              children: [
-                                                ...controller.coupletOrders
-                                                    .map(
-                                                      (e) => MyOrderCard(
-                                                        myOrdersModel: e,
-                                                      ),
-                                                    )
-                                                    .toList(),
-                                                ...controller
-                                                    .servicescoupletOrders
-                                                    .map(
-                                                      (e) => ServiceOrderCard(
-                                                        serviceModel: e,
-                                                      ),
-                                                    )
-                                                    .toList(),
-                                              ],
-                                            ),
-
-                                        // الطلبات الملغاة
-                                        controller.cancelOrders.isEmpty &&
-                                                controller
-                                                    .servicescancelOrders
-                                                    .isEmpty
-                                            ? Center(
-                                              child: Text(
-                                                ' لا يوجد طلبات ملغاة',
-                                              ),
-                                            )
-                                            : ListView(
-                                              children: [
-                                                ...controller.cancelOrders
-                                                    .map(
-                                                      (e) => MyOrderCard(
-                                                        myOrdersModel: e,
-                                                      ),
-                                                    )
-                                                    .toList(),
-                                                ...controller
-                                                    .servicescancelOrders
-                                                    .map(
-                                                      (e) => ServiceOrderCard(
-                                                        serviceModel: e,
-                                                      ),
-                                                    )
-                                                    .toList(),
-                                              ],
-                                            ),
-                                      ],
+                            SizedBox(
+                              height:
+                                  constraints.maxHeight -
+                                  (HelperFunctions.screenHeight() / 3.5),
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 20),
+                                child: ContainedTabBarView(
+                                  tabBarProperties: TabBarProperties(
+                                    isScrollable: true,
+                                    labelPadding: EdgeInsets.all(2),
+                                    height: 40,
+                                    margin: EdgeInsets.all(2),
+                                    padding: EdgeInsets.only(bottom: 10),
+                                    indicatorWeight: 1,
+                                    labelStyle: Styles.style5.copyWith(
+                                      color: AppColors.black,
                                     ),
+                                    unselectedLabelStyle: Styles.style5
+                                        .copyWith(color: AppColors.black),
+                                    indicatorColor: AppColors.primaryColor,
                                   ),
+                                  tabs: const [
+                                    Padding(
+                                      padding: EdgeInsets.all(2),
+                                      child: Text(' جميع الطلبات'),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(2),
+                                      child: Text(' جميع الحجوزات'),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(2),
+                                      child: Text('النشطه'),
+                                    ),
+                                     Padding(
+                                       padding: EdgeInsets.all(2),
+                                       child: Text('المقبولة'),
+                                     ),
+                                    Padding(
+                                      padding: EdgeInsets.all(2.0),
+                                      child: Text('قيد التوصيل'),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(2.0),
+                                      child: Text('المكتمله'),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(2.0),
+                                      child: Text('الملغاه'),
+                                    ),
+                                  ],
+
+                                  views: [
+                                    controller.statusRequest ==
+                                            StatusRequest.loading
+                                        ? ServiceOrderCardShimmer()
+                                        : // ✅ جميع الطلبات
+                                        RefreshIndicator(
+                                          onRefresh: () async {
+                                            await controller.getOrderProduct();
+                                            await controller.getOrderServices();
+                                          },
+                                          child:
+                                              controller.productOrders.isEmpty
+                                                  ? Center(
+                                                    child: Text(
+                                                      'لا يوجد طلبات',
+                                                    ),
+                                                  )
+                                                  : ListView(
+                                                    children:
+                                                        controller.productOrders
+                                                            .map(
+                                                              (
+                                                                e,
+                                                              ) => MyOrderCard(
+                                                                cancel: () {
+                                                                  CancelOrderDialog(
+                                                                    context,
+                                                                    e.id.toString(),
+                                                                  );
+                                                                },
+                                                                myOrdersModel:
+                                                                    e,
+                                                              ),
+                                                            )
+                                                            .toList(),
+                                                  ),
+                                        ),
+
+                                    controller.statusRequest ==
+                                            StatusRequest.loading
+                                        ? ServiceOrderCardShimmer()
+                                        : // ✅ جميع الحجوزات
+                                        RefreshIndicator(
+                                          onRefresh: () async {
+                                            await controller.getOrderProduct();
+                                            await controller.getOrderServices();
+                                          },
+                                          child:
+                                              controller.servicesOrders.isEmpty
+                                                  ? Center(
+                                                    child: Text(
+                                                      'لا يوجد حجوزات',
+                                                    ),
+                                                  )
+                                                  : ListView(
+                                                    children:
+                                                        controller
+                                                            .servicesOrders
+                                                            .map(
+                                                              (e) =>
+                                                                  ServiceOrderCard(
+                                                                    serviceModel:
+                                                                        e,
+                                                                  ),
+                                                            )
+                                                            .toList(),
+                                                  ),
+                                        ),
+
+                                    controller.statusRequest ==
+                                            StatusRequest.loading
+                                        ? ServiceOrderCardShimmer()
+                                        : // ✅ الطلبات النشطة
+                                        RefreshIndicator(
+                                          onRefresh: () async {
+                                            await controller.getOrderProduct();
+                                            await controller.getOrderServices();
+                                          },
+                                          child:
+                                              controller.activeOrders.isEmpty &&
+                                                      controller
+                                                          .servicesactiveOrders
+                                                          .isEmpty
+                                                  ? Center(
+                                                    child: Text(
+                                                      'لا يوجد طلبات نشطة',
+                                                    ),
+                                                  )
+                                                  : ListView(
+                                                    children: [
+                                                      ...controller.activeOrders
+                                                          .map(
+                                                            (e) => MyOrderCard(
+                                                              cancel: () {
+                                                                CancelOrderDialog(
+                                                                  context,
+                                                                  e.id.toString(),
+                                                                );
+                                                              },
+                                                              myOrdersModel: e,
+                                                            ),
+                                                          ),
+                                                      ...controller
+                                                          .servicesactiveOrders
+                                                          .map(
+                                                            (e) =>
+                                                                ServiceOrderCard(
+                                                                  serviceModel:
+                                                                      e,
+                                                                ),
+                                                          ),
+                                                    ],
+                                                  ),
+                                        ),
+//مقبولة
+  controller.statusRequest ==
+                                            StatusRequest.loading
+                                        ? ServiceOrderCardShimmer()
+                                        : // ✅ الطلبات النشطة
+                                        RefreshIndicator(
+                                          onRefresh: () async {
+                                            await controller.getOrderProduct();
+                                            await controller.getOrderServices();
+                                          },
+                                          child:
+                                              controller.acceptedOrders.isEmpty 
+                                                  ? Center(
+                                                    child: Text(
+                                                      'لا يوجد طلبات مقبولة',
+                                                    ),
+                                                  )
+                                                  : ListView(
+                                                    children: [
+                                                      ...controller.acceptedOrders
+                                                          .map(
+                                                            (e) => MyOrderCard(
+                                                            /*   cancel: () {
+                                                                CancelOrderDialog(
+                                                                  context,
+                                                                  e.id.toString(),
+                                                                );
+                                                              }, */
+                                                              myOrdersModel: e,
+                                                            ),
+                                                          ),
+                                                    
+                                                    ],
+                                                  ),
+                                        ),
+
+                                    // ✅ قيد التوصيل
+                                    controller.statusRequest ==
+                                            StatusRequest.loading
+                                        ? ServiceOrderCardShimmer()
+                                        : RefreshIndicator(
+                                          onRefresh: () async {
+                                            await controller.getOrderProduct();
+                                            await controller.getOrderServices();
+                                          },
+                                          child:
+                                              controller.onWayOrders.isEmpty
+                                                  ? Center(
+                                                    child: Text(
+                                                      'لا يوجد طلبات قيد التوصيل حاليا',
+                                                    ),
+                                                  )
+                                                  : ListView(
+                                                    children:
+                                                        controller.onWayOrders
+                                                            .map(
+                                                              (
+                                                                e,
+                                                              ) => MyOrderCard(
+                                                                cancel: () {
+                                                                  CancelOrderDialog(
+                                                                    context,
+                                                                    e.id.toString(),
+                                                                  );
+                                                                },
+                                                                myOrdersModel:
+                                                                    e,
+                                                              ),
+                                                            )
+                                                            .toList(),
+                                                  ),
+                                        ),
+
+                                    // ✅ المكتملة
+                                    controller.statusRequest ==
+                                            StatusRequest.loading
+                                        ? ServiceOrderCardShimmer()
+                                        : RefreshIndicator(
+                                          onRefresh: () async {
+                                            await controller.getOrderProduct();
+                                            await controller.getOrderServices();
+                                          },
+                                          child:
+                                              controller
+                                                          .coupletOrders
+                                                          .isEmpty &&
+                                                      controller
+                                                          .servicescoupletOrders
+                                                          .isEmpty
+                                                  ? Center(
+                                                    child: Text(
+                                                      'لا يوجد طلبات مكتملة',
+                                                    ),
+                                                  )
+                                                  : ListView(
+                                                    children: [
+                                                      ...controller
+                                                          .coupletOrders
+                                                          .map(
+                                                            (e) => MyOrderCard(
+                                                              myOrdersModel: e,
+                                                            ),
+                                                          ),
+                                                      ...controller
+                                                          .servicescoupletOrders
+                                                          .map(
+                                                            (e) =>
+                                                                ServiceOrderCard(
+                                                                  serviceModel:
+                                                                      e,
+                                                                ),
+                                                          ),
+                                                    ],
+                                                  ),
+                                        ),
+
+                                    // ✅ الملغاة
+                                    controller.statusRequest ==
+                                            StatusRequest.loading
+                                        ? ServiceOrderCardShimmer()
+                                        : RefreshIndicator(
+                                          onRefresh: () async {
+                                            await controller.getOrderProduct();
+                                            await controller.getOrderServices();
+                                          },
+                                          child:
+                                              controller.cancelOrders.isEmpty &&
+                                                      controller
+                                                          .servicescancelOrders
+                                                          .isEmpty
+                                                  ? Center(
+                                                    child: Text(
+                                                      'لا يوجد طلبات ملغاة',
+                                                    ),
+                                                  )
+                                                  : ListView(
+                                                    children: [
+                                                      ...controller.cancelOrders
+                                                          .map(
+                                                            (e) => MyOrderCard(
+                                                              myOrdersModel: e,
+                                                            ),
+                                                          ),
+                                                      ...controller
+                                                          .servicescancelOrders
+                                                          .map(
+                                                            (e) =>
+                                                                ServiceOrderCard(
+                                                                  serviceModel:
+                                                                      e,
+                                                                ),
+                                                          ),
+                                                    ],
+                                                  ),
+                                        ),
+                                  ],
                                 ),
+                              ),
+                            ),
 
                             //  SizedBox(height: 200,)
                           ],

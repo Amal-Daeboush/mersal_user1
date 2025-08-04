@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:mersal/data/model/products_model.dart';
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/app_image_asset.dart';
 import '../../../../core/constant/styles.dart';
+import '../../details screen/view/details_screen.dart';
 
 class CardTopProduct extends StatelessWidget {
   final ProductModel productModel;
@@ -26,7 +28,7 @@ class CardTopProduct extends StatelessWidget {
       hoverColor: Colors.transparent,
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
-      onTap: ontap,
+      onTap: () => Get.to(DetailsScreen(productModel: productModel)),
       child: SizedBox(
         width: 150.w,
         child: Column(
@@ -50,9 +52,9 @@ class CardTopProduct extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        productModel.discountInfo.hasDiscount?
-                          Container(
-                              decoration:  BoxDecoration(
+                        productModel.discountInfo.hasDiscount
+                            ? Container(
+                              decoration: BoxDecoration(
                                 shape: BoxShape.rectangle,
                                 borderRadius: BorderRadius.circular(5),
                                 color: AppColors.red,
@@ -67,9 +69,8 @@ class CardTopProduct extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                            ):
-                       SizedBox()
-                          ,
+                            )
+                            : SizedBox(),
                         InkWell(
                           focusColor: Colors.transparent,
                           hoverColor: Colors.transparent,
@@ -81,7 +82,7 @@ class CardTopProduct extends StatelessWidget {
                               shape: BoxShape.circle,
                               color: AppColors.whiteColor,
                             ),
-                            child: const Padding(
+                            child: Padding(
                               padding: EdgeInsets.all(2),
                               child: Icon(
                                 Icons.favorite_border_outlined,

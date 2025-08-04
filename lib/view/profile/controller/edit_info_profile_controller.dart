@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -63,10 +64,16 @@ class EditInfoProfileController extends GetxController {
       var responseData = await response.stream.bytesToString();
       print("🔴 Response Data: $responseData");
       print("🔴 Status Code: ${response.statusCode}");
-
+      var decoded = json.decode(responseData);
       if (response.statusCode == 200 || response.statusCode == 201) {
         //  var decodeResponse = json.decode(responseData);
+        var image = decoded['profile']['image'];
 
+        await MyServices.saveValue(SharedPreferencesKey.image, image);
+        ConstData.image = image;
+        MyServices().setConstImage();
+        Get.find<ProfileController>().image = image;
+        Get.find<ProfileController>().update();
         statusRequest = StatusRequest.success;
         CustomSnackBar('الصورة تم رفعها بنجاح!', true);
         print("✅ الصورة تم رفعها بنجاح!");
@@ -93,8 +100,8 @@ class EditInfoProfileController extends GetxController {
       Crud crud = Crud();
       var response = await crud.post(ApiLinks.postPass, {
         'name': name.text,
-        '_method':'PUT'
-        //    'phone': phone.text,
+        '_method': 'PUT',
+        'phone': phone.text,
       }, ApiLinks().getHeaderWithToken());
 
       response.fold(
@@ -125,14 +132,15 @@ class EditInfoProfileController extends GetxController {
               data is Map<dynamic, dynamic> &&
               data['user'] != null) {
             var name = data['user']['name'];
-         //   var phone = data['user']['phone'];
+            var phone = data['user']['phone'];
 
             await MyServices.saveValue(SharedPreferencesKey.userName, name);
-         //   await MyServices.saveValue(SharedPreferencesKey.userPhone, phone);
+            await MyServices.saveValue(SharedPreferencesKey.userPhone, phone);
 
             ConstData.nameUser = name;
-          //  ConstData.phoneUser = phone;
-
+            ConstData.phoneUser = phone;
+            MyServices().setConstName();
+            MyServices().setConstPhone();
             Get.find<ProfileController>().name = name;
             Get.find<ProfileController>().update();
 
@@ -146,17 +154,7 @@ class EditInfoProfileController extends GetxController {
             update();
           }
 
-          {
-            statusRequest = StatusRequest.failure;
-            message = 'حدث خطأ';
-
-            Get.snackbar(
-              'خطأ',
-              message,
-              snackPosition: SnackPosition.BOTTOM,
-            ); // عرض رسالة الخطأ
-          }
-          update();
+         
         },
       );
     } else {

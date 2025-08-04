@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:mersal/data/model/product_model.dart';
 import 'package:mersal/data/model/products_model.dart';
 
 import '../../../../core/constant/app_colors.dart';

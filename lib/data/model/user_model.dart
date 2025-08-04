@@ -114,7 +114,7 @@ class User {
 
 class Profile {
   int id;
-  int userId;
+  String userId;
   
   String address;
   String image;

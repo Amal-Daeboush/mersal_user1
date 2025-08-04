@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:mersal/core/constant/styles.dart';
+import 'package:mersal/data/model/products_model.dart' as Product;
 
-import '../../../../core/constant/app_image_asset.dart';
 
 class ImagesList extends StatelessWidget {
-  const ImagesList({super.key});
+  final List<Product.Image> images;
+  const ImagesList({super.key, required this.images});
 
   @override
   Widget build(BuildContext context) {
-    List images = [
-      AppImageAsset.im1,
-      AppImageAsset.im2,
-      AppImageAsset.im3,
-      AppImageAsset.im1
-    ];
+    if (images.isEmpty) {
+     return Center(child: Text('لا يوجد صور', style: Styles.style1));
+    }
     return ListView(
       children: [
         GridView.custom(
@@ -35,17 +34,15 @@ class ImagesList extends StatelessWidget {
           childrenDelegate: SliverChildBuilderDelegate(
             (context, index) => ClipRRect(
               borderRadius: BorderRadius.circular(8), // Add rounded corners
-              child: Image.asset(
-                images[index],
+              child: Image.network(
+                images[index].url,
                 fit: BoxFit.cover, // Ensure images fit tiles
               ),
             ),
             childCount: images.length, // Ensure the list length matches
           ),
         ),
-        SizedBox(
-          height: 20,
-        ),
+        SizedBox(height: 20),
       ],
     );
   }

@@ -12,7 +12,7 @@ class OpinionsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ratings.isEmpty
-        ? Center(child: Text(message??'', style: Styles.style1))
+        ? Center(child: Text('لا يوجد تقييمات بعد', style: Styles.style1))
         : ListView(
           children: [
             ListView.separated(

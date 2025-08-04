@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:mersal/core/class/status_request.dart';
 import 'package:mersal/data/data_source/remote/api_remote.dart';
 import 'package:mersal/view/authentication/login/screen/login.dart';
-import 'package:mersal/view/authentication/verfication/view/verfication_phon_screen.dart';
 
 class RegisterController extends GetxController {
   bool obscureText = false;
@@ -42,7 +41,7 @@ class RegisterController extends GetxController {
         statusRequest = StatusRequest.success;
         isLoading = false;
         //   Get.off(const LoginScreen());
-        Get.off(VerificationPhonScreen(email: emailController.text));
+        Get.off(LoginScreen());
       } else if (response is String) {
         // ✅ عرض رسالة الخطأ بشكل مناسب
         Get.snackbar('Error', response);

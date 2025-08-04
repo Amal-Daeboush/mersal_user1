@@ -24,72 +24,72 @@ class ChangePasswordController extends GetxController {
 
     return null;
   }
-updatepassword() async {
-  if (keyForm.currentState!.validate() && newpass.text == confirmpass.text) {
-    statusRequest = StatusRequest.loading;
-    update();
 
-    var response = await ApiRemote().updateInfo({
-      '_method': 'PUT',
-      'current_password': oldpass.text,
-      'password': newpass.text,
-      'password_confirmation': confirmpass.text,
-    });
-
-    print("🚀  response: $response");
-
-    if (response == StatusRequest.success) {
-      statusRequest = StatusRequest.success;
-      message = 'تم تغيير كلمة المرور بنجاح';
+  updatepassword() async {
+    if (keyForm.currentState!.validate() && newpass.text == confirmpass.text) {
+      statusRequest = StatusRequest.loading;
       update();
-      CustomSnackBar(message, true);
-      Get.back();
-    } 
-    // لو الرد من السيرفر هو Map يحوي رسائل خطأ
-    else if (response is Map) {
-      if (response.containsKey('message')) {
-        message = response['message'] ?? 'حدث خطأ';
-        Get.snackbar('خطأ', message, snackPosition: SnackPosition.TOP);
-      } else if (response.containsKey('errors')) {
-        Map<String, dynamic> errors = response['errors'];
-        String errorMessages = errors.values
-            .map((list) => (list as List).join('\n'))
-            .join('\n');
-        message = errorMessages;
-        Get.snackbar('خطأ', message, snackPosition: SnackPosition.TOP);
-      } else {
-        message = 'حدث خطأ غير معروف';
-        Get.snackbar('خطأ', message, snackPosition: SnackPosition.TOP);
+
+      var response = await ApiRemote().updateInfo({
+        '_method': 'PUT',
+        'current_password': oldpass.text,
+        'password': newpass.text,
+        'password_confirmation': confirmpass.text,
+      });
+
+      print("🚀  response: $response");
+
+      if (response == StatusRequest.success) {
+        statusRequest = StatusRequest.success;
+        message = 'تم تغيير كلمة المرور بنجاح';
+        update();
+        CustomSnackBar(message, true);
+        Get.back();
       }
-      statusRequest = StatusRequest.failure;
-      update();
-    } 
-    else if (response is String) {
-      statusRequest = StatusRequest.failure;
-      message = response;
-      update();
-      Get.snackbar('خطأ', message);
-    } 
-    else {
-      statusRequest = StatusRequest.failure;
-      message = 'حدث خطأ';
-      update();
-      Get.snackbar('خطأ', message);
+      // لو الرد من السيرفر هو Map يحوي رسائل خطأ
+      else if (response is Map) {
+        if (response.containsKey('message')) {
+          message = response['message'] ?? 'حدث خطأ';
+          Get.snackbar('خطأ', message, snackPosition: SnackPosition.TOP);
+        } else if (response.containsKey('errors')) {
+          Map<String, dynamic> errors = response['errors'];
+          String errorMessages = errors.values
+              .map((list) => (list as List).join('\n'))
+              .join('\n');
+          message = errorMessages;
+          Get.snackbar('خطأ', message, snackPosition: SnackPosition.TOP);
+        } else {
+          message = 'حدث خطأ غير معروف';
+          Get.snackbar('خطأ', message, snackPosition: SnackPosition.TOP);
+        }
+        statusRequest = StatusRequest.failure;
+        update();
+      } else if (response is String) {
+        statusRequest = StatusRequest.failure;
+        message = response;
+        update();
+        Get.snackbar('خطأ', message);
+      } else {
+        statusRequest = StatusRequest.failure;
+        message = 'حدث خطأ';
+        update();
+        Get.snackbar('خطأ', message);
+      }
+
+      // تنظيف الحقول دائماً بعد محاولة التحديث
+      oldpass.clear();
+      newpass.clear();
+      confirmpass.clear();
+    } else {
+      Get.snackbar(
+        'خطأ',
+        'يرجى التأكد من صحة البيانات وإدخال كلمة المرور الجديدة بشكل مطابق',
+      );
+      oldpass.clear();
+      newpass.clear();
+      confirmpass.clear();
     }
 
-    // تنظيف الحقول دائماً بعد محاولة التحديث
-    oldpass.clear();
-    newpass.clear();
-    confirmpass.clear();
-  } else {
-    Get.snackbar('خطأ', 'يرجى التأكد من صحة البيانات وإدخال كلمة المرور الجديدة بشكل مطابق');
-    oldpass.clear();
-    newpass.clear();
-    confirmpass.clear();
+    update();
   }
-
-  update();
-}
-
-
 }

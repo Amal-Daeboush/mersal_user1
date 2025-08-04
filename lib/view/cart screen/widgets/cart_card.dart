@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:mersal/core/class/helper_functions.dart';
 import 'package:mersal/core/constant/app_colors.dart';
-import 'package:mersal/core/constant/app_image_asset.dart';
 import 'package:mersal/core/constant/styles.dart';
 import 'package:mersal/data/model/cart_model.dart';
 
@@ -34,7 +32,7 @@ class CartCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(AppImageAsset.im1, width: 100.w, height: 100.h),
+              Image.network(cartModel.productModel.images.first.url, width: 100.w, height: 100.h),
               SizedBox(width: 10.h),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

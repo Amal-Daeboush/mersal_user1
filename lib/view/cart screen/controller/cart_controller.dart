@@ -59,16 +59,16 @@ class CartController extends GetxController {
     if (response is Map<String, dynamic>) {
       if (response['success'] == true && response.containsKey('order')) {
         final order = response['order'];
-        final originalTotal = order['original_total_price'];
+        final originalTotal = order['products_price'];
         final total = order['total_price'];
-        final couponCode = order['coupon_code'];
+        /*   final couponCode = order['coupon_code'];
         final couponDiscount = order['coupon_discount'];
         final products = order['products'] as List;
-
+ */
         String details = '✅ تم إنشاء الطلب بنجاح\n\n';
-        details += '📦 المنتجات:\n';
+        //   details += '📦 المنتجات:\n';
 
-        for (var product in products) {
+        /*     for (var product in products) {
           final name = product['product_name'];
           final qty = product['quantity'];
           final price = product['final_unit_price'];
@@ -76,15 +76,15 @@ class CartController extends GetxController {
               (int.tryParse(qty.toString()) ?? 1) *
               (int.tryParse(price.toString()) ?? 0);
           details += '- $name × $qty = $totalItemPrice\n';
-        }
+        } */
 
-        details += '\n💰 السعر الأصلي: $originalTotal';
-        details += '\n🎯 السعر بعد الخصم: $total';
+        details += '\n💰 سعر المنتجات : $originalTotal';
+        details += '\n🎯 السعر مع التوصيل: $total';
 
-        if (couponCode != null && couponCode.toString().isNotEmpty) {
+        /* if (couponCode != null && couponCode.toString().isNotEmpty) {
           details +=
               '\n🏷️ كوبون "$couponCode" تم استخدامه (خصم $couponDiscount)';
-        }
+        } */
 
         await Get.defaultDialog(
           title: 'تم الطلب بنجاح',
@@ -200,7 +200,8 @@ class CartController extends GetxController {
       snackPosition: SnackPosition.TOP,
     );
   }
-   Future<void> checkCoupon(BuildContext context) async {
+
+  Future<void> checkCoupon(BuildContext context) async {
     statusRequest = StatusRequest.loading;
     update();
 
@@ -227,19 +228,22 @@ class CartController extends GetxController {
               data['data']['is_active'] == true) {
             statusRequest = StatusRequest.success;
             message = 'تم تفعيل الكوبون بنجاح!';
-            successfulDialog(context); // ✅ نجاح
+            successfulDialog(context);
+            //    Get.back();// ✅ نجاح
           } else {
             statusRequest = StatusRequest.failure;
             message = 'هذا الكوبون غير مفعل أو غير صالح.';
 
             errorDialog(context); // ⚠️ خطأ
             coupoun.clear();
+            // Get.back();
           }
         } else {
           statusRequest = StatusRequest.failure;
           message = 'استجابة غير صالحة من الخادم.';
           errorDialog(context);
-          coupoun.clear(); // ⚠️ خطأ
+          coupoun.clear();
+          //  Get.back();// ⚠️ خطأ
         }
         update();
       },

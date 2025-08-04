@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mersal/core/constant/app_image_asset.dart';
-
 import 'package:mersal/data/model/service_revestion_model.dart'
     as service_revestion_model;
 
@@ -46,8 +44,8 @@ class ServiceOrderCard extends StatelessWidget {
                 padding: EdgeInsets.only(bottom: 10.h),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.asset(
-                    AppImageAsset.im1,
+                  child: Image.network(
+                    serviceModel.product.images.first.imag,
                     height: 120.h,
                     width: 120.w,
                     fit: BoxFit.cover,

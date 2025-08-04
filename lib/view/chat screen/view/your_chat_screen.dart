@@ -5,7 +5,6 @@ import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:mersal/view/widgets/custom_loading.dart';
 import '../../../core/constant/app_colors.dart';
-import '../../../core/constant/app_image_asset.dart';
 import '../../../core/constant/styles.dart';
 import '../../../data/model/message_model.dart';
 import '../controller/your_chat_controller.dart';
@@ -160,7 +159,7 @@ class YourChatScreen extends StatelessWidget {
                               ),
                             );
                           } else if (item is MessageModel) {
-                            final isMe = id == item.receiverId;
+                            final isMe = id ==int.parse(item.receiverId) ;
                             final time = DateFormat(
                               'hh:mm a',
                             ).format(item.createdAt.toLocal());

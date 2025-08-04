@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mersal/data/model/rating_model.dart';
 import 'package:mersal/view/details%20screen/controller/details_controller.dart';
-import 'package:mersal/view/widgets/custom_loading.dart';
+
 
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/styles.dart';
@@ -35,7 +35,7 @@ void showEditRateDialog(
               alignment: Alignment.center,
               children: [
                 Opacity(
-                  opacity: detailsController.isLoading.value ? 0.5 : 1.0,
+                  opacity: detailsController.isLoading.value ? 1.0 : 1.0,
                   child: AbsorbPointer(
                     absorbing: detailsController.isLoading.value,
                     child: Column(
@@ -66,7 +66,7 @@ void showEditRateDialog(
                               Navigator.pop(context);
                               await detailsController.editRate(
                                 ratings.id.toString(),
-                                editController.text,
+                                editController.text,context
                               );
                             }
                           },
@@ -87,11 +87,11 @@ void showEditRateDialog(
                     ),
                   ),
                 ),
-                if (detailsController.isLoading.value)
+              /*   if (detailsController.isLoading.value)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 70),
                     child: customLoadingIndictor(),
-                  ), // ✅
+                  ), / */
               ],
             ),
           ),

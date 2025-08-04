@@ -1,44 +1,45 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import 'package:mersal/core/class/status_request.dart';
 
 import '../constant/app_colors.dart';
-import '../constant/app_image_asset.dart';
 
 class HandlingDataView extends StatelessWidget {
   final StatusRequest statusRequest;
   final Widget widget;
   final bool isLoading;
   final Future<void> Function() onRefresh;
-  const HandlingDataView(
-      {super.key,
-      required this.statusRequest,
-      required this.widget,
-      this.isLoading = false,
-      required this.onRefresh});
+  const HandlingDataView({
+    super.key,
+    required this.statusRequest,
+    required this.widget,
+    this.isLoading = false,
+    required this.onRefresh,
+  });
 
   @override
   Widget build(BuildContext context) {
     return statusRequest == StatusRequest.loading && isLoading == true
         ? CustomRefreshHandlindDataView(
-            onRefresh: onRefresh,
-            statusRequest: statusRequest,
-           icon: Icons.offline_bolt,)
+          onRefresh: onRefresh,
+          statusRequest: statusRequest,
+          icon: Icons.offline_bolt,
+        )
         : statusRequest == StatusRequest.offlineFailure
-            ? CustomRefreshHandlindDataView(
-                onRefresh: onRefresh,
-                statusRequest: statusRequest,
-                  icon: Icons.offline_bolt,)
-            : statusRequest == StatusRequest.failure
-                ? CustomRefreshHandlindDataView(
-                    onRefresh: onRefresh,
-                    statusRequest: statusRequest,
-                      icon: Icons.offline_bolt,)
-                : widget;
+        ? CustomRefreshHandlindDataView(
+          onRefresh: onRefresh,
+          statusRequest: statusRequest,
+          icon: Icons.offline_bolt,
+        )
+        : statusRequest == StatusRequest.failure
+        ? CustomRefreshHandlindDataView(
+          onRefresh: onRefresh,
+          statusRequest: statusRequest,
+          icon: Icons.offline_bolt,
+        )
+        : widget;
   }
 }
 
@@ -47,30 +48,34 @@ class HandlingDataViewRequest extends StatelessWidget {
   final Widget widget;
   final Future<void> Function() onRefresh;
 
-  const HandlingDataViewRequest(
-      {super.key,
-      required this.statusRequest,
-      required this.widget,
-      required this.onRefresh});
+  const HandlingDataViewRequest({
+    super.key,
+    required this.statusRequest,
+    required this.widget,
+    required this.onRefresh,
+  });
 
   @override
   Widget build(BuildContext context) {
     return statusRequest == StatusRequest.loading
         ? CustomRefreshHandlindDataView(
-            onRefresh: onRefresh,
-            statusRequest: statusRequest,
-           icon:Icons.local_dining)
+          onRefresh: onRefresh,
+          statusRequest: statusRequest,
+          icon: Icons.local_dining,
+        )
         : statusRequest == StatusRequest.offlineFailure
-            ? CustomRefreshHandlindDataView(
-                onRefresh: onRefresh,
-                statusRequest: statusRequest,
-             icon: Icons.offline_bolt,)
-            : statusRequest == StatusRequest.serverFailure
-                ? CustomRefreshHandlindDataView(
-                    onRefresh: onRefresh,
-                    statusRequest: statusRequest,
-                    icon:Icons.severe_cold_rounded)
-                : widget;
+        ? CustomRefreshHandlindDataView(
+          onRefresh: onRefresh,
+          statusRequest: statusRequest,
+          icon: Icons.offline_bolt,
+        )
+        : statusRequest == StatusRequest.serverFailure
+        ? CustomRefreshHandlindDataView(
+          onRefresh: onRefresh,
+          statusRequest: statusRequest,
+          icon: Icons.severe_cold_rounded,
+        )
+        : widget;
   }
 }
 
@@ -92,16 +97,9 @@ class CustomRefreshHandlindDataView extends StatelessWidget {
       onRefresh: onRefresh,
       child: ListView(
         children: [
-          SizedBox(
-            height: Get.height / 3,
-          ),
-       
-          Center(
-              child: Icon(
-            icon,
-     size: 50,
-           
-          ))
+          SizedBox(height: Get.height / 3),
+
+          Center(child: Icon(icon, size: 50)),
         ],
       ),
     );

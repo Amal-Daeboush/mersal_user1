@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/constant/app_colors.dart';
 import '../../../../core/constant/styles.dart';
-import 'validate_coupon.dart';
+
 
 void showCouponDialog(
   BuildContext context,

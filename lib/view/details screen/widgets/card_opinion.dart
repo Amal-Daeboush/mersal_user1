@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mersal/view/details screen/controller/details_controller.dart';
 import 'package:mersal/view/details%20screen/widgets/add%20rate%20doilog/delet_edit_dialog.dart';
 
+
 import '../../../core/constant/app_image_asset.dart';
 import '../../../core/constant/styles.dart';
 
@@ -39,16 +40,23 @@ class CardOpinion extends StatelessWidget {
       child: GestureDetector(
         onLongPress:
             ratingModel.user.id == ConstData.user!.user.id
-                ? () =>
-                    showDeleteDialogDialog(context, ratingModel, detailsController)
+                ? () => showDeleteDialogDialog(
+                  context,
+                  ratingModel,
+                  detailsController,
+                )
                 : null,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ListTile(
-              leading: const CircleAvatar(
-                radius: 15,
-                backgroundImage: AssetImage(AppImageAsset.profile),
+              leading: CircleAvatar(
+                radius: 15.r,
+                backgroundImage:
+                    ratingModel.user.image.toString().isEmpty
+                        ? const AssetImage(AppImageAsset.user)
+                        : NetworkImage(ratingModel.user.image.toString())
+                            as ImageProvider,
               ),
               title: Text(
                 ' ${ratingModel.user.name} ',
@@ -163,5 +171,4 @@ class CardOpinion extends StatelessWidget {
       ),
     );
   }
-
 }

@@ -18,11 +18,11 @@ import 'package:mersal/core/sevices/key_shsred_perfences.dart';
 import 'package:mersal/core/sevices/sevices.dart';
 import 'package:mersal/data/data_source/remote/api_remote.dart';
 import 'package:mersal/view/botttom%20nav%20bar/view/bottom_nav_bar_screen.dart';
-import 'package:mersal/view/home/controller/home_controller.dart';
+
 import 'package:mersal/view/widgets/snack%20bar/custom_snack_bar.dart';
 import '../../../core/class/status_request.dart';
 import '../../../core/constant/app_routes.dart';
-import '../../../model/user_model.dart';
+
 
 class AddressController extends GetxController {
   StatusRequest statusRequest = StatusRequest.none;
@@ -36,7 +36,6 @@ class AddressController extends GetxController {
   bool isfoundProfile = ConstData.user?.user.profile != null;
   // AddCityData addCityData = AddCityData(Get.find());
   late Position position;
-  User1Model? user;
   double? latitude;
   double? longitude;
   CameraPosition? kGooglePlex;

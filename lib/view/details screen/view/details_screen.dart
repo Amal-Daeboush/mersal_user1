@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mersal/core/class/status_request.dart';
-import 'package:mersal/core/constant/styles.dart';
 import 'package:mersal/data/model/products_model.dart';
 import 'package:mersal/view/details%20screen/controller/details_controller.dart';
 import 'package:mersal/view/details%20screen/widgets/add%20rate%20doilog/enter_dialog.dart';
@@ -19,6 +18,7 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     DetailsController detailsController = Get.put(
       DetailsController(id: productModel.id, productModel: productModel),
     );
@@ -44,7 +44,9 @@ class DetailsScreen extends StatelessWidget {
                           ? false
                           : true,
                       controller.productProviderModel?.vendor.user.id ?? 1,
-                      controller.productProviderModel?.vendor.user.name ?? '',
+                      controller.productProviderModel?.vendor.user.name ?? '',   
+                
+                          productModel.images.first.url,
                     ),
                     // details
                     Positioned(
@@ -93,6 +95,7 @@ class DetailsScreen extends StatelessWidget {
                                         : controller.statusRequest ==
                                             StatusRequest.failure
                                         ? CustomTabBar(
+                                          images: productModel.images,
                                           message: controller.message,
                                           ratings: controller.ratings,
                                           height: constraints.maxHeight / 2.5,
@@ -100,11 +103,13 @@ class DetailsScreen extends StatelessWidget {
                                         : controller.statusRequest ==
                                             StatusRequest.offlineFailure
                                         ? CustomTabBar(
+                                           images: productModel.images,
                                           message: controller.message,
                                           ratings: controller.ratings,
                                           height: constraints.maxHeight / 2.5,
                                         )
                                         : CustomTabBar(
+                                           images: productModel.images,
                                           ratings: controller.ratings,
                                           height: constraints.maxHeight / 2.5,
                                         ),

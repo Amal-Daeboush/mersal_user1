@@ -1,15 +1,16 @@
-import 'package:get/get.dart';
+/* import 'package:get/get.dart';
 import 'package:mersal/core/class/crud.dart';
 import 'package:mersal/core/class/status_request.dart';
 import 'package:mersal/core/constant/api_links.dart';
-import 'package:mersal/data/model/category_model.dart';
 
 import 'package:flutter/material.dart';
+import 'package:mersal/data/model/food_type_model.dart';
 import 'package:mersal/data/model/products_model.dart'; // assuming this is where ProductsModel is defined
 
 class FoodController extends GetxController {
   final int id;
   final String type;
+  List<ProductModel> allProducts = []; // كل المنتجات
 
   FoodController({required this.id, required this.type});
 
@@ -46,55 +47,54 @@ class FoodController extends GetxController {
     update();
   }
 
-  Future<void> getProduct({bool isInitialLoad = false}) async {
-    if (isInitialLoad) {
-      statusRequest = StatusRequest.loading;
-      currentPage = 1;
-      products.clear();
-      update();
-    }
-
-    isLoadingMore = true;
+Future<void> getProduct({bool isInitialLoad = false}) async {
+  if (isInitialLoad) {
+    statusRequest = StatusRequest.loading;
+    currentPage = 1;
+    products.clear();
+    allProducts.clear(); // ✅ امسحها كل مرة تحميل جديد
     update();
-
-    Crud crud = Crud();
-    final url = '${ApiLinks.productByProviderProduct}/$id?page=$currentPage';
-
-    final response = await crud.post(url, {}, ApiLinks().getHeaderWithToken());
-
-    response.fold(
-      (failure) {
-        isLoadingMore = false;
-        statusRequest = StatusRequest.failure;
-        message = 'فشل الاتصال بالخادم.';
-        Get.snackbar('خطأ', message);
-        update();
-      },
-      (data) {
-        isLoadingMore = false;
-        isLoadingMore = false;
-        if (data != null && data is Map<String, dynamic>) {
-          final parsed = ProductsModelModel.fromJson(data);
-
-          /// ✅ فلترة المنتجات حسب نوع الطعام
-          final filtered =
-              parsed.data!.where((product) {
-                return product.foodType == type; // تأكد أن لديك حقل foodType
-              }).toList();
-
-          products.addAll(filtered);
-          currentPage = parsed.currentPage;
-          lastPage = parsed.lastPage;
-          statusRequest = StatusRequest.success;
-        } else {
-          statusRequest = StatusRequest.failure;
-          message = 'استجابة غير صالحة من الخادم.';
-          Get.snackbar('خطأ', message);
-        }
-        update();
-      },
-    );
   }
+
+  isLoadingMore = true;
+  update();
+
+  Crud crud = Crud();
+  final url = '${ApiLinks.productByCategory}/$id?page=$currentPage';
+  final response = await crud.post(url, {}, ApiLinks().getHeaderWithToken());
+
+  response.fold(
+    (failure) {
+      isLoadingMore = false;
+      statusRequest = StatusRequest.failure;
+      message = 'فشل الاتصال بالخادم.';
+      Get.snackbar('خطأ', message);
+      update();
+    },
+    (data) {
+      isLoadingMore = false;
+      if (data != null && data is Map) {
+        final parsed = ProductsModelModel.fromJson(Map<String, dynamic>.from(data));
+        final fetched = parsed.data;
+
+        allProducts.addAll(fetched); // ✅ خزّن الكل هنا
+        applyFilter(); // ✅ فلترة حسب النوع المحدد
+
+        currentPage = parsed.currentPage;
+        lastPage = parsed.lastPage;
+        statusRequest = StatusRequest.success;
+      } else {
+        statusRequest = StatusRequest.failure;
+        message = 'استجابة غير صالحة من الخادم.';
+        Get.snackbar('خطأ', message);
+      }
+      update();
+    },
+  );
+}
+
+
+ 
 
   void loadMore() {
     if (currentPage < lastPage) {
@@ -109,3 +109,4 @@ class FoodController extends GetxController {
     super.onClose();
   }
 }
+ */

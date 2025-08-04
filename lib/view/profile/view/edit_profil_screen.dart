@@ -60,10 +60,12 @@ class EditProfileScreen extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(4),
                               child: CircleAvatar(
-                                radius: 50.r,
-                                backgroundImage: AssetImage(
-                                  AppImageAsset.profile,
-                                ),
+                                radius: 70.r,
+                                backgroundImage:
+                                    ConstData.image.isEmpty
+                                        ? const AssetImage(AppImageAsset.user)
+                                        : NetworkImage(ConstData.image)
+                                            as ImageProvider,
                               ),
                             ),
                           ),
@@ -73,10 +75,12 @@ class EditProfileScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Container(
+                             /*  Container(
                                 //   height: 30,
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: AppColors.lightGrey),
+                                  border: Border.all(
+                                    color: AppColors.lightGrey,
+                                  ),
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 padding: const EdgeInsets.all(2),
@@ -86,7 +90,7 @@ class EditProfileScreen extends StatelessWidget {
                                   color: AppColors.red,
                                 ),
                               ),
-                              SizedBox(width: 10.w),
+                              SizedBox(width: 10.w), */
                               InkWell(
                                 focusColor: Colors.transparent,
                                 hoverColor: Colors.transparent,
@@ -119,16 +123,15 @@ class EditProfileScreen extends StatelessWidget {
                             obscureText: false,
                             isPassWord: false,
                           ),
-                      
+
                           SizedBox(height: 10.h),
-                       /*    CustomTextFormField(
+                          CustomTextFormField(
                             controller: controller.phone,
                             hintText: 'رقم الهاتف',
                             obscureText: false,
                             isPassWord: false,
                           ),
-                          SizedBox(height: 10.h), */
-                      
+
                           SizedBox(height: 10.h),
                           CustomContainerButton(
                             onTap: () => controller.updateName(),

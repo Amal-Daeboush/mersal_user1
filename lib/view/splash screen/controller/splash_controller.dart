@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mersal/core/constant/const_data.dart';
+import 'package:mersal/view/authentication/verfication/view/verfication_phon_screen.dart';
 import 'package:mersal/view/botttom%20nav%20bar/view/bottom_nav_bar_screen.dart';
 
 import '../../authentication/authentication/view/authentication_screen.dart';
@@ -81,6 +82,13 @@ class SplashController extends GetxController
           print('----------------------$phone------------------');
           if (token == '') {
             Get.off(AuthenticationScreen());
+          } else if (token != '' && ConstData.otp == '0') {
+            Get.off(
+              VerificationPhonScreen(
+                isForgetpass: false,
+                email: ConstData.user!.user.email!,
+              ),
+            );
           } else {
             Get.off(BottomNavBarScreen());
           }

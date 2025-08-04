@@ -1,8 +1,9 @@
 import 'package:mersal/core/constant/const_data.dart';
 
 class ApiLinks {
-  static const String server = "http://192.168.1.12:8000/api";
- // static const String server= "https://highleveltecknology.com/Ms/api";
+  //static const String server = "http://192.168.1.12:8000/api";
+   static const String server= "https://mersal.site/Ms/api";
+  // static const String server= "https://highleveltecknology.com/Ms/api";
   // ================================= Images ================================== //
   static const String imagesStatic = "";
   // ================================= Auth ================================== //
@@ -11,23 +12,25 @@ class ApiLinks {
   static const String google = "$server/auth/google/redirect";
   static const String facebook = "$server/auth/facebook/redirect";
   static const String verify_otp = "$server/verify_otp";
+  static const String resend_otp = "$server/resend-otp";
+  static const String forget_pass = "$server/forget-password";
+  static const String reset_pass = "$server/reset-password";
 
   // ================================= CATEGORY ================================== //
   static const String getCategories = "$server/user/categories/get_all";
 
   // ================================= provider =====================
   static const String getProductProviders =
-      "$server/user/provider/product/get_by_status"
-      ;
-       static const String getProviderforservice =
+      "$server/user/provider/product/get_by_status";
+  static const String getProviderforservice =
       "$server/user/provider/service/show_info";
-       static const String getProviderforproduct =
+  static const String getProviderforproduct =
       "$server/user/provider/product/show_info";
   // ================================= product ================================== //
   static const String latestProduct = "$server/user/product/get_all_latest";
   static const String productByCategory =
       "$server/user/product/product_by_category";
-        static const String productByProviderProduct =
+  static const String productByProviderProduct =
       "$server/user/product/product_by_product_provider";
   static const String show_product = "$server/user/product/show";
   static const String show_rate_product = "$server/user/product/all_rating";
@@ -45,13 +48,15 @@ class ApiLinks {
   static const String checkCoupon = "$server/coupons/check-status";
   // ================================= order =====================
   static const String reservation = "$server/user/reservation/store";
+    static const String track_order = "$server/user/orders/tracking";
   static const String getreservation =
       "$server/user/getUserReservations/ByStatus";
   static const String getordergProduct = "$server/user/orders/get_product";
 
   // ================================= food ================================== //
- static const String foodTypes = "$server/food-types/index";
-  static const String getProvidersByFoodType = "$server/food-types/getProvidersByFoodType";
+  static const String foodTypes = "$server/food-types/index";
+  static const String getProvidersByFoodType =
+      "$server/food-types/getProvidersByFoodType";
   // ================================= favorites =====================
   static const String getFavoriteProduct =
       "$server/user/favourites/products/get_all";
@@ -63,7 +68,10 @@ class ApiLinks {
   static const String updateProfile = "$server/user/profile/update";
   static const String getProfile = "$server/user/my_info/get";
   static const String postPass = "$server/user/my_info/update";
-
+  // ================================= notification =====================
+  static const String getNotification = "$server/my_notification";
+  static const String readable_massege = "$server/readable_massege";
+  static const String read_notificatio = "$server/read_notification";
   // ================================= chat =====================
   static const String getConversations = "$server/getInteractedUsers";
   static const String getConversation = "$server/getConversation";

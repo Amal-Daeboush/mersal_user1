@@ -11,8 +11,8 @@ String serviceReservationModelToJson(ServiceReservationModel data) => json.encod
 
 class ServiceReservationModel {
     final int id;
-    final int userId; 
-    final int productId;
+    final String userId; 
+    final String productId;
     final String status;
     final String totalPrice;
     final String originalPrice;
@@ -84,11 +84,11 @@ class ServiceReservationModel {
 class Product {
     final int id;
     final String name;
-    final int categoryId;
+    final String categoryId;
     final String description;
     final String price;
     final String providerableType;
-    final int providerableId;
+    final String providerableId;
     final dynamic quantity;
     final String timeOfService;
     final DateTime createdAt;
@@ -147,7 +147,7 @@ class Product {
 
 class Image {
     final int id;
-    final int productId;
+    final String productId;
     final String imag;
     final DateTime createdAt;
     final DateTime updatedAt;

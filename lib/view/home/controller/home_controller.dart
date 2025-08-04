@@ -4,9 +4,9 @@ import 'package:mersal/core/class/crud.dart';
 import 'package:mersal/core/class/status_request.dart';
 import 'package:mersal/core/constant/api_links.dart';
 import 'package:mersal/core/constant/const_data.dart';
-import 'package:mersal/data/model/latest_products_model.dart';
 import 'package:mersal/data/model/product_providers.dart';
 import 'package:mersal/data/model/products_model.dart';
+import 'package:mersal/view/notifications%20screen/controller/notification_controller.dart';
 import '../../../data/model/category_model.dart';
 
 class HomeController extends GetxController {
@@ -28,6 +28,7 @@ class HomeController extends GetxController {
   // 🔹 تحكم بالـ Scroll
   final ScrollController scrollController = ScrollController();
   final ScrollController categoryScrollController = ScrollController();
+    final controller = Get.find<NotificationController>();
 
   // 🔹 بحث
   TextEditingController searchController = TextEditingController();
@@ -36,7 +37,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     addressUser = ConstData.addressUser;
-
+  //  controller.loadNotifications(); 
     getCategories();
     getProducts(perPage: 4);
    // getProductProviders(isInitialLoad: true);

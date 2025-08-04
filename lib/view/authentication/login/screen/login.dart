@@ -2,9 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:mersal/view/authentication/forget%20password/view/forget_pass_screen.dart';
 import 'package:mersal/view/authentication/login/controller/login_controller.dart';
 import 'package:mersal/view/authentication/register/view/register_screen.dart';
-import 'package:mersal/view/authentication/reset_password/view/reset_password_screen.dart';
 import 'package:mersal/view/authentication/widget/custom_container_button/custom_button_google.dart';
 import 'package:mersal/view/authentication/widget/logo/custom_logo.dart';
 import 'package:mersal/view/widgets/custom_loading.dart';
@@ -119,7 +119,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 15.h),
                           TextButton(
-                            onPressed: () => Get.off(ResetPasswordScreen()),
+                            onPressed: () => Get.off(ForgetPassScreen()),
                             child: Text(
                               'نسيت كلمه السر؟',
                               style: Styles.style1.copyWith(

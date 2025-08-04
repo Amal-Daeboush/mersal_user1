@@ -30,16 +30,18 @@ class Crud {
           if (saveToken) {
             var token = decodeResponse['access_token'];
             var user = UserModel.fromRawJson(response.body);
-               var name = user.user.name;
-         //   var phone = decodeResponse['data']['email'];
+            var name = user.user.name;
+            var otp = user.user.otp;
+            //   var phone = decodeResponse['data']['email'];
             //  var name = user.user.name;
 
             await MyServices().saveUserInfo(user);
             await MyServices.saveValue(SharedPreferencesKey.userName, name);
-         //   await MyServices.saveValue(SharedPreferencesKey.userPhone, '678');
+            await MyServices.saveValue(SharedPreferencesKey.otp, otp!);
+            //   await MyServices.saveValue(SharedPreferencesKey.userPhone, '678');
 
             await MyServices().setConstName();
-
+            await MyServices().setConstOtp();
             await MyServices.saveValue(SharedPreferencesKey.tokenkey, token);
 
             await MyServices().setConstToken();
@@ -168,6 +170,36 @@ class Crud {
       return const Left(StatusRequest.serverFailure);
     }
   }
+  Future<Either<StatusRequest, dynamic>> getData404(
+  String url,
+  Map<String, String>? headers,
+) async {
+  try {
+    if (await HelperFunctions.checkInternet()) {
+      var response = await http.get(Uri.parse(url), headers: headers);
+
+      print(response);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        var responseBody = jsonDecode(response.body);
+        print(response.body);
+        return Right(responseBody);
+      } else if (response.statusCode == 404) {
+        // لو جت 404، نرجع البيانات مفسرة بدل الخطأ العام
+        var responseBody = jsonDecode(response.body);
+        print(response.body);
+        return Right(responseBody); // نرجعها كـ Right عشان تقدر تتعامل معها في الكود اللي يستقبل البيانات
+      } else {
+        return const Left(StatusRequest.serverFailure);
+      }
+    } else {
+      return const Left(StatusRequest.offlineFailure);
+    }
+  } catch (_) {
+    return const Left(StatusRequest.serverFailure);
+  }
+}
+
 
   Future<Either<StatusRequest, dynamic>> post(
     String url,

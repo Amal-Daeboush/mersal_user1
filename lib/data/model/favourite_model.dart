@@ -98,7 +98,7 @@ class Category {
 
 class Image {
     int id;
-    int productId;
+    String productId;
     String imag;
     DateTime createdAt;
     DateTime updatedAt;

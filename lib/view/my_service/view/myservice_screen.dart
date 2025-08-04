@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mersal/core/class/status_request.dart';
-import 'package:mersal/data/model/category_model.dart';
+import 'package:mersal/view/cart%20screen/view/cart_screen.dart';
 import 'package:mersal/view/details%20screen/view/details_screen.dart';
 import 'package:mersal/view/favourite/controller/favourite_controller.dart';
 import 'package:mersal/view/my_service/controller/my_service_controller.dart';
@@ -10,7 +10,6 @@ import 'package:mersal/view/widgets/shimmer/product_shimmer.dart';
 import '../../../core/constant/app_colors.dart';
 import '../../../core/constant/styles.dart';
 import '../../widgets/app bar/container_app_bar.dart';
-import '../../widgets/custom_licart_card_view/custom_service.dart';
 import '../widgets/card_my_service.dart';
 
 class MyserviceScreen extends StatelessWidget {
@@ -47,10 +46,15 @@ class MyserviceScreen extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Icon(
-                              Icons.shopping_cart_outlined,
-                              size: 20,
-                              color: AppColors.whiteColor,
+                            IconButton(
+                              onPressed: () {
+                                Get.to(CartScreen());
+                              },
+                              icon: Icon(
+                                Icons.shopping_cart_outlined,
+                                size: 20,
+                                color: AppColors.whiteColor,
+                              ),
                             ),
                             Text(
                               '${title}',

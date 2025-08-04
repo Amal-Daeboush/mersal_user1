@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../../core/constant/app_colors.dart';
-import '../../../core/constant/styles.dart';
 import 'gradiant/custom_gradient_text.dart';
 
 

@@ -5,6 +5,21 @@ import 'package:mersal/core/constant/const_data.dart';
 
 class ApiRemote {
   Crud crud = Crud();
+  Future<dynamic> verificationModel(
+    Map<String, dynamic> data,
+    String url,
+    bool token,
+  ) async {
+    var response = await Crud().postData(
+      url,
+      data,
+      token ? ApiLinks().getHeaderWithToken() : ApiLinks().getHeader(),
+      false,
+    );
+
+    return response.fold((l) => l, (r) => r);
+  }
+
   Future<dynamic> signUpModel(Map<String, dynamic> data) async {
     var response = await Crud().postData(
       '${ApiLinks.register}',
@@ -42,7 +57,20 @@ class ApiRemote {
       (r) => r, // response كـ Map<String, dynamic> عند الفشل
     );
   }
-    Future<dynamic> updateInfo(Map<String, dynamic> data) async {
+  Future<dynamic> detilsOrser(Map<String, dynamic> data,String id) async {
+    var response = await crud.post(
+      '${ApiLinks.track_order}/$id',
+      data,
+      ApiLinks().getHeaderWithToken(),
+    );
+
+    return response.fold(
+      (l) => l, // StatusRequest.success أو StatusRequest.failure
+      (r) => r, // response كـ Map<String, dynamic> عند الفشل
+    );
+  }
+
+  Future<dynamic> updateInfo(Map<String, dynamic> data) async {
     var response = await crud.post(
       '${ApiLinks.postPass}',
       data,
@@ -65,10 +93,8 @@ class ApiRemote {
 
     return response.fold((l) => l, (r) => r);
   }
-   Future<dynamic> CancelOrderModel(
-    Map<String, dynamic> data,
-    String id,
-  ) async {
+
+  Future<dynamic> CancelOrderModel(Map<String, dynamic> data, String id) async {
     var response = await Crud().postData(
       '${ApiLinks.canceledProduct}/$id',
       data,
@@ -138,24 +164,22 @@ class ApiRemote {
     return response.fold((l) => l, (r) => StatusRequest.success);
   }
 
- Future<dynamic> orderProductModel(
-  Map<String, dynamic> data,
-  String id,
-) async {
-  var response = await Crud().postDataList(
-    '${ApiLinks.orderProduct}',
-    data,  // ترسل Map مباشرة
-     {
-      'Content-Type': 'application/json',
-     
-      "Authorization": "Bearer ${ConstData.token}",
-    },
+  Future<dynamic> orderProductModel(
+    Map<String, dynamic> data,
+    String id,
+  ) async {
+    var response = await Crud().postDataList(
+      '${ApiLinks.orderProduct}',
+      data, // ترسل Map مباشرة
+      {
+        'Content-Type': 'application/json',
 
-  );
+        "Authorization": "Bearer ${ConstData.token}",
+      },
+    );
 
-  return response.fold((l) => l, (r) => r);
-}
-
+    return response.fold((l) => l, (r) => r);
+  }
 
   Future<dynamic> orderServiceModel(
     Map<String, dynamic> data,
@@ -165,8 +189,6 @@ class ApiRemote {
       '${ApiLinks.reservation}',
       data,
       ApiLinks().getHeaderWithToken(),
-  
- 
     );
 
     return response.fold((l) => l, (r) => r);

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:mersal/core/constant/app_colors.dart';
 
 class OrderButton extends StatelessWidget {
@@ -34,6 +33,7 @@ class OrderButton extends StatelessWidget {
               title,
               style: TextStyle(
                 fontSize: 16,
+                fontFamily: 'Cairo',
                 color: isprimary ? Colors.white : AppColors.black,
               ),
             ),
