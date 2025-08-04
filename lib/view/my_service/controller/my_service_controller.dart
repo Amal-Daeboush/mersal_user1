@@ -3,7 +3,7 @@ import 'package:mersal/core/class/crud.dart';
 import 'package:mersal/core/class/status_request.dart';
 import 'package:mersal/core/constant/api_links.dart';
 import 'package:flutter/material.dart';
-import 'package:mersal/data/model/products_model.dart'; // assuming this is where ProductsModel is defined
+import 'package:mersal/model/products_model.dart'; // assuming this is where ProductsModel is defined
 
 
 

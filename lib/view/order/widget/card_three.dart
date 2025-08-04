@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mersal/data/model/products_model.dart';
+import 'package:mersal/model/products_model.dart';
 
 import '../../../core/class/helper_functions.dart';
 import '../../../core/constant/app_colors.dart';

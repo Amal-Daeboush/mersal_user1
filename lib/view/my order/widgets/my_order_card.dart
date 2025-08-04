@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mersal/core/constant/app_image_asset.dart';
-import 'package:mersal/data/model/product_order_model.dart';
+import 'package:mersal/model/product_order_model.dart';
 import 'package:mersal/view/my%20order/view/details_order_screen.dart';
 
 import '../../../core/constant/app_colors.dart';

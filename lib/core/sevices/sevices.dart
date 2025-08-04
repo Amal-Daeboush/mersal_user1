@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:mersal/core/sevices/key_shsred_perfences.dart';
-import 'package:mersal/data/model/cart_model.dart';
-import 'package:mersal/data/model/products_model.dart';
-import 'package:mersal/data/model/user_model.dart';
+import 'package:mersal/model/cart_model.dart';
+import 'package:mersal/model/products_model.dart';
+import 'package:mersal/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constant/const_data.dart';

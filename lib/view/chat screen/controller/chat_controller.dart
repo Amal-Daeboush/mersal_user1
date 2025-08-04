@@ -1,25 +1,60 @@
- import 'package:get/get.dart';
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 import 'package:mersal/core/constant/api_links.dart';
-import 'package:mersal/data/model/messages_model.dart';
+import 'package:mersal/model/messages_model.dart';
 import 'package:mersal/view/widgets/snack%20bar/custom_snack_bar.dart';
 import '../../../core/class/crud.dart';
 import '../../../core/class/status_request.dart';
+import 'global_chat_pusher_controller.dart';
 
-
-class ChatController extends GetxController {  TextEditingController searchController = TextEditingController();
+class ChatController extends GetxController {
+  TextEditingController searchController = TextEditingController();
   bool isSearchActive = false;
   StatusRequest statusRequest = StatusRequest.loading;
   String message = '';
 
-  List<MessagesModel> messages = [];
-  List<MessagesModel> filteredMessages = []; // ✅ قائمة مفلترة
+  // بدل List عادي نستخدم RxList عشان التحديث التلقائي (اختياري)
+  RxList<MessagesModel> messages = <MessagesModel>[].obs;
+  RxList<MessagesModel> filteredMessages = <MessagesModel>[].obs;
+
+  final GlobalPusherController globalPusherController = Get.find();
 
   @override
   void onInit() {
-    getConversions();
     super.onInit();
+    getConversions();
+
+    // إذا تبي تحدث الرسائل بشكل مباشر من الـ GlobalPusherController
+    ever(globalPusherController.conversationsMessages, (_) {
+      // تحديث قائمة الرسائل حسب المحادثات الموجودة
+      _syncMessagesFromGlobalPusher();
+    });
+  }
+
+  void _syncMessagesFromGlobalPusher() {
+    // هنا نجمع آخر رسالة من كل محادثة (يمكنك تعديل حسب حاجتك)
+    List<MessagesModel> latestMessages = [];
+
+    globalPusherController.conversationsMessages.forEach((userId, msgs) {
+      if (msgs.isNotEmpty) {
+        // مثلاً آخر رسالة لكل محادثة
+        latestMessages.add(
+          MessagesModel(
+            id: int.tryParse(msgs.last.senderId) ?? 0,
+            name: '[اسم غير متوفر]', // يمكنك تعيين الاسم الصحيح من مكان آخر
+            lastMessageAt: msgs.last.createdAt,
+          ),
+        );
+        // إذا لديك تحويل
+      }
+    });
+
+    // تحديث القوائم
+    messages.assignAll(latestMessages);
+    filteredMessages.assignAll(latestMessages);
+    statusRequest = StatusRequest.success;
+    update();
   }
 
   Future<void> getConversions() async {
@@ -27,7 +62,10 @@ class ChatController extends GetxController {  TextEditingController searchContr
     update();
 
     Crud crud = Crud();
-    var response = await crud.getData(ApiLinks.getConversations, ApiLinks().getHeaderWithToken());
+    var response = await crud.getData(
+      ApiLinks.getConversations,
+      ApiLinks().getHeaderWithToken(),
+    );
 
     response.fold(
       (failure) {
@@ -45,31 +83,43 @@ class ChatController extends GetxController {  TextEditingController searchContr
         print("Response data: $data");
 
         if (data != null && data is List) {
-          messages = data.map((item) => MessagesModel.fromJson(item)).toList();
-          filteredMessages = List.from(messages); // ✅ نسخ البيانات بعد الجلب
+          messages.value =
+              data.map((item) => MessagesModel.fromJson(item)).toList();
+          filteredMessages.value = List.from(messages);
           statusRequest = StatusRequest.success;
+
+          // مزامنة الرسائل مع GlobalPusherController
+          // افترض أن لديك طريقة لتحويل MessagesModel إلى MessageModel
+          // أو بالعكس، حسب ما تفضل
+          for (var msg in messages) {
+            int userId = msg.id; // أو أي معرف مستخدم مناسب
+            globalPusherController.conversationsMessages[userId] = [
+              msg.toMessageModel(),
+            ];
+          }
         } else {
           statusRequest = StatusRequest.failure;
           message = 'حدث خطأ';
           print("Invalid data structure or 'data' key is missing");
-          messages = [];
-          filteredMessages = [];
+          messages.clear();
+          filteredMessages.clear();
         }
         update();
       },
     );
   }
 
-  // ✅ دالة البحث
   void filterMessages(String query) {
     if (query.isEmpty) {
-      filteredMessages = List.from(messages);
+      filteredMessages.value = List.from(messages);
     } else {
-      filteredMessages = messages
-          .where((msg) => msg.name.toLowerCase().contains(query.toLowerCase()))
-          .toList();
+      filteredMessages.value =
+          messages
+              .where(
+                (msg) => msg.name.toLowerCase().contains(query.toLowerCase()),
+              )
+              .toList();
     }
     update();
   }
 }
- 

@@ -4,10 +4,10 @@ import 'package:mersal/core/class/crud.dart';
 import 'package:mersal/core/class/status_request.dart';
 import 'package:mersal/core/constant/api_links.dart';
 import 'package:mersal/core/constant/const_data.dart';
-import 'package:mersal/data/model/product_providers.dart';
-import 'package:mersal/data/model/products_model.dart';
+import 'package:mersal/model/product_providers.dart';
+import 'package:mersal/model/products_model.dart';
 import 'package:mersal/view/notifications%20screen/controller/notification_controller.dart';
-import '../../../data/model/category_model.dart';
+import '../../../model/category_model.dart';
 
 class HomeController extends GetxController {
   // 🔹 متغيرات البيانات

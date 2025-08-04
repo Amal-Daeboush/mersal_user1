@@ -5,7 +5,7 @@ import 'package:mersal/core/class/helper_functions.dart';
 import 'package:mersal/core/constant/app_colors.dart';
 import 'package:mersal/core/constant/app_image_asset.dart';
 import 'package:mersal/core/constant/styles.dart';
-import 'package:mersal/data/model/notification_model.dart';
+import 'package:mersal/model/notification_model.dart';
 
 class NotificationCard extends StatelessWidget {
   final NotificationModel notificationModel;

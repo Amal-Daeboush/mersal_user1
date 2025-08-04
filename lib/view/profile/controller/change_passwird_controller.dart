@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mersal/core/class/status_request.dart';
-import 'package:mersal/data/data_source/remote/api_remote.dart';
+import 'package:mersal/model/api_remote.dart';
 import 'package:mersal/view/widgets/snack%20bar/custom_snack_bar.dart'
     show CustomSnackBar;
 

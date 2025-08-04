@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mersal/core/class/status_request.dart';
-import 'package:mersal/data/data_source/remote/api_remote.dart';
+import 'package:mersal/model/api_remote.dart';
 
 import '../../../../core/constant/api_links.dart';
 import '../../verfication/view/verfication_phon_screen.dart';

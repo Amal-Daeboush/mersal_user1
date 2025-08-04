@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:mersal/core/sevices/key_shsred_perfences.dart';
-import 'package:mersal/data/model/user_model.dart';
+import 'package:mersal/model/user_model.dart';
 import '../sevices/sevices.dart';
 import 'helper_functions.dart';
 import 'status_request.dart';

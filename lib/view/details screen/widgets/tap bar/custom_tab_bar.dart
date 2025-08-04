@@ -1,7 +1,7 @@
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'package:flutter/material.dart';
-import 'package:mersal/data/model/products_model.dart' as Product;
-import 'package:mersal/data/model/rating_model.dart';
+import 'package:mersal/model/products_model.dart' as Product;
+import 'package:mersal/model/rating_model.dart';
 
 import '../../../../core/constant/app_colors.dart';
 import 'image_list.dart';

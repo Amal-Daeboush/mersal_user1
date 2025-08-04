@@ -5,9 +5,9 @@ import 'package:mersal/core/class/status_request.dart';
 import 'package:mersal/core/constant/api_links.dart';
 import 'package:mersal/core/constant/styles.dart';
 import 'package:mersal/core/sevices/sevices.dart';
-import 'package:mersal/data/data_source/remote/api_remote.dart';
-import 'package:mersal/data/model/cart_model.dart';
-import 'package:mersal/data/model/products_model.dart';
+import 'package:mersal/model/api_remote.dart';
+import 'package:mersal/model/cart_model.dart';
+import 'package:mersal/model/products_model.dart';
 import 'package:mersal/view/order/widget/coupon%20doilog/error_dialog.dart';
 import 'package:mersal/view/order/widget/coupon%20doilog/succesful_dialog.dart';
 

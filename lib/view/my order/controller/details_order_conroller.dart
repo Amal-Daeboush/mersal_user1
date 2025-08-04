@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:mersal/core/class/status_request.dart';
-import 'package:mersal/data/model/details_order.dart';
+import 'package:mersal/model/details_order.dart';
 import '../../../core/class/crud.dart';
 import '../../../core/constant/api_links.dart';
 

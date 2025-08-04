@@ -3,10 +3,12 @@ import 'package:mersal/core/class/status_request.dart';
 import 'package:mersal/core/constant/api_links.dart';
 import 'package:mersal/core/sevices/key_shsred_perfences.dart';
 import 'package:mersal/core/sevices/sevices.dart';
-import 'package:mersal/data/data_source/remote/api_remote.dart';
+import 'package:mersal/model/api_remote.dart';
 import 'package:mersal/view/address/view/address.dart';
 import 'package:mersal/view/authentication/login/screen/login.dart';
 
+import '../../../chat screen/controller/global_chat_pusher_controller.dart';
+import '../../../favourite/controller/favourite_controller.dart';
 import '../../../notifications screen/controller/notification_controller.dart';
 
 
@@ -54,6 +56,8 @@ class VerificationController extends GetxController {
   ); // أو أي طريقة تحفظ بها اليوزر
 
   if (userId != null) {
+     Get.put(FavouriteController());
+    Get.put(GlobalPusherController());
     var controller = Get.put(NotificationController());
     controller.loadNotifications(loadUnreadAlso: true);
   }

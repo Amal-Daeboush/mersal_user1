@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:mersal/model/message_model.dart';
+
 class MessagesModel {
     int id;
     String name;
@@ -26,4 +28,13 @@ class MessagesModel {
         "name": name,
         "last_message_at": lastMessageAt.toIso8601String(),
     };
+    MessageModel toMessageModel() {
+  return MessageModel(
+    message: "[رسالة غير متاحة]",
+    senderId: id.toString(),
+    receiverId: '',
+    createdAt: lastMessageAt,
+  );
+}
+
 }

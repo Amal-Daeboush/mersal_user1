@@ -1,4 +1,4 @@
-import 'package:mersal/data/model/category_model.dart';
+import 'package:mersal/model/category_model.dart';
 
 class ServiceModel {
   final String name;

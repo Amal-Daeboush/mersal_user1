@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:mersal/view/widgets/custom_loading.dart';
 import '../../../core/constant/app_colors.dart';
 import '../../../core/constant/styles.dart';
-import '../../../data/model/message_model.dart';
+import '../../../model/message_model.dart';
 import '../controller/your_chat_controller.dart';
 import '../widgets/input.dart';
 import 'package:bubble/bubble.dart';
@@ -24,10 +24,9 @@ class YourChatScreen extends StatelessWidget {
     );
 
     return Scaffold(
-   //   backgroundColor: const Color.fromARGB(255, 241, 239, 239),
+      //   backgroundColor: const Color.fromARGB(255, 241, 239, 239),
       body: SafeArea(
         child: Container(
-
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Column(
@@ -106,22 +105,30 @@ class YourChatScreen extends StatelessWidget {
 
                       String formatDate(DateTime date) {
                         final now = DateTime.now();
+                        final localDate = date.toLocal();
+
+                        bool isSameDate(DateTime d1, DateTime d2) =>
+                            d1.year == d2.year &&
+                            d1.month == d2.month &&
+                            d1.day == d2.day;
+
                         final msgDate = DateTime(
-                          date.year,
-                          date.month,
-                          date.day,
+                          localDate.year,
+                          localDate.month,
+                          localDate.day,
                         );
                         final today = DateTime(now.year, now.month, now.day);
                         final yesterday = today.subtract(Duration(days: 1));
 
-                        if (msgDate == today) return 'اليوم';
-                        if (msgDate == yesterday) return 'أمس';
-                        return DateFormat('yyyy/MM/dd').format(msgDate);
+                        if (isSameDate(msgDate, today)) return 'اليوم';
+                        if (isSameDate(msgDate, yesterday)) return 'أمس';
+                        return DateFormat('yyyy/MM/dd').format(localDate);
                       }
 
                       // ✅ بناء قائمة مركبة من الرسائل والفواصل
                       for (var message in originalMessages) {
                         String currentDate = formatDate(message.createdAt);
+
                         if (lastDate != currentDate) {
                           chatItems.add(currentDate);
                           lastDate = currentDate;
@@ -159,24 +166,22 @@ class YourChatScreen extends StatelessWidget {
                               ),
                             );
                           } else if (item is MessageModel) {
-                            final isMe = id ==int.parse(item.receiverId) ;
+                            final isMe = id.toString() == item.receiverId;
                             final time = DateFormat(
                               'hh:mm a',
                             ).format(item.createdAt.toLocal());
 
                             return Bubble(
-                                  shadowColor:   isMe
-                                      ? AppColors.greyColor:AppColors.primaryColor,
+                              shadowColor:
+                                  isMe
+                                      ? AppColors.greyColor
+                                      : AppColors.primaryColor,
                               elevation: 5,
                               margin: BubbleEdges.all(5),
                               alignment:
-                                  isMe
-                                      ? Alignment.topRight
-                                      : Alignment.topLeft,
+                                  isMe ? Alignment.topRight : Alignment.topLeft,
                               nip:
-                                  isMe
-                                      ? BubbleNip.rightTop
-                                      : BubbleNip.leftTop,
+                                  isMe ? BubbleNip.rightTop : BubbleNip.leftTop,
                               color:
                                   isMe
                                       ? AppColors.primaryColorBold
@@ -187,8 +192,7 @@ class YourChatScreen extends StatelessWidget {
                                   Text(
                                     item.message,
                                     style: TextStyle(
-                                      color:
-                                          isMe ? Colors.white : Colors.black,
+                                      color: isMe ? Colors.white : Colors.black,
                                     ),
                                   ),
                                   SizedBox(height: 5),

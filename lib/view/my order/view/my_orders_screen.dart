@@ -14,6 +14,7 @@ import 'package:mersal/view/my%20order/widgets/services_card.dart';
 import '../../../core/constant/app_colors.dart';
 import '../../../core/constant/styles.dart';
 
+import '../../widgets/custom_loading.dart';
 import '../widgets/my_orders_app_bar.dart';
 
 class MyOrdersScreen extends StatelessWidget {
@@ -96,10 +97,10 @@ class MyOrdersScreen extends StatelessWidget {
                                       padding: EdgeInsets.all(2),
                                       child: Text('النشطه'),
                                     ),
-                                     Padding(
-                                       padding: EdgeInsets.all(2),
-                                       child: Text('المقبولة'),
-                                     ),
+                                    Padding(
+                                      padding: EdgeInsets.all(2),
+                                      child: Text('المقبولة'),
+                                    ),
                                     Padding(
                                       padding: EdgeInsets.all(2.0),
                                       child: Text('قيد التوصيل'),
@@ -117,7 +118,13 @@ class MyOrdersScreen extends StatelessWidget {
                                   views: [
                                     controller.statusRequest ==
                                             StatusRequest.loading
-                                        ? ServiceOrderCardShimmer()
+                                        ? Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 120,
+                                            vertical: 20,
+                                          ),
+                                          child: customLoadingIndictor(),
+                                        )
                                         : // ✅ جميع الطلبات
                                         RefreshIndicator(
                                           onRefresh: () async {
@@ -154,7 +161,13 @@ class MyOrdersScreen extends StatelessWidget {
 
                                     controller.statusRequest ==
                                             StatusRequest.loading
-                                        ? ServiceOrderCardShimmer()
+                                        ? Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 120,
+                                            vertical: 20,
+                                          ),
+                                          child: customLoadingIndictor(),
+                                        )
                                         : // ✅ جميع الحجوزات
                                         RefreshIndicator(
                                           onRefresh: () async {
@@ -185,7 +198,13 @@ class MyOrdersScreen extends StatelessWidget {
 
                                     controller.statusRequest ==
                                             StatusRequest.loading
-                                        ? ServiceOrderCardShimmer()
+                                        ? Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 120,
+                                            vertical: 20,
+                                          ),
+                                          child: customLoadingIndictor(),
+                                        )
                                         : // ✅ الطلبات النشطة
                                         RefreshIndicator(
                                           onRefresh: () async {
@@ -228,10 +247,16 @@ class MyOrdersScreen extends StatelessWidget {
                                                     ],
                                                   ),
                                         ),
-//مقبولة
-  controller.statusRequest ==
+                                    //مقبولة
+                                    controller.statusRequest ==
                                             StatusRequest.loading
-                                        ? ServiceOrderCardShimmer()
+                                        ? Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 120,
+                                            vertical: 20,
+                                          ),
+                                          child: customLoadingIndictor(),
+                                        )
                                         : // ✅ الطلبات النشطة
                                         RefreshIndicator(
                                           onRefresh: () async {
@@ -239,7 +264,7 @@ class MyOrdersScreen extends StatelessWidget {
                                             await controller.getOrderServices();
                                           },
                                           child:
-                                              controller.acceptedOrders.isEmpty 
+                                              controller.acceptedOrders.isEmpty
                                                   ? Center(
                                                     child: Text(
                                                       'لا يوجد طلبات مقبولة',
@@ -247,10 +272,11 @@ class MyOrdersScreen extends StatelessWidget {
                                                   )
                                                   : ListView(
                                                     children: [
-                                                      ...controller.acceptedOrders
+                                                      ...controller
+                                                          .acceptedOrders
                                                           .map(
                                                             (e) => MyOrderCard(
-                                                            /*   cancel: () {
+                                                              /*   cancel: () {
                                                                 CancelOrderDialog(
                                                                   context,
                                                                   e.id.toString(),
@@ -259,7 +285,6 @@ class MyOrdersScreen extends StatelessWidget {
                                                               myOrdersModel: e,
                                                             ),
                                                           ),
-                                                    
                                                     ],
                                                   ),
                                         ),
@@ -267,7 +292,13 @@ class MyOrdersScreen extends StatelessWidget {
                                     // ✅ قيد التوصيل
                                     controller.statusRequest ==
                                             StatusRequest.loading
-                                        ? ServiceOrderCardShimmer()
+                                        ? Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 120,
+                                            vertical: 20,
+                                          ),
+                                          child: customLoadingIndictor(),
+                                        )
                                         : RefreshIndicator(
                                           onRefresh: () async {
                                             await controller.getOrderProduct();
@@ -304,7 +335,13 @@ class MyOrdersScreen extends StatelessWidget {
                                     // ✅ المكتملة
                                     controller.statusRequest ==
                                             StatusRequest.loading
-                                        ? ServiceOrderCardShimmer()
+                                        ? Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 120,
+                                            vertical: 20,
+                                          ),
+                                          child: customLoadingIndictor(),
+                                        )
                                         : RefreshIndicator(
                                           onRefresh: () async {
                                             await controller.getOrderProduct();
@@ -347,7 +384,13 @@ class MyOrdersScreen extends StatelessWidget {
                                     // ✅ الملغاة
                                     controller.statusRequest ==
                                             StatusRequest.loading
-                                        ? ServiceOrderCardShimmer()
+                                        ? Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 120,
+                                            vertical: 20,
+                                          ),
+                                          child: customLoadingIndictor(),
+                                        )
                                         : RefreshIndicator(
                                           onRefresh: () async {
                                             await controller.getOrderProduct();

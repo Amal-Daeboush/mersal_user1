@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mersal/core/class/status_request.dart';
-import 'package:mersal/data/model/products_model.dart';
+import 'package:mersal/model/products_model.dart';
 import 'package:mersal/view/order/controller/order_controller.dart';
 import 'package:mersal/view/widgets/app%20bar/container_app_bar.dart';
 import 'package:mersal/view/widgets/custom_loading.dart';

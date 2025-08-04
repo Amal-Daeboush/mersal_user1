@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:mersal/core/class/crud.dart';
 import 'package:mersal/core/class/status_request.dart';
 import 'package:mersal/core/constant/api_links.dart';
-import 'package:mersal/data/model/notification_model.dart';
+import 'package:mersal/model/notification_model.dart';
 
 class NotificationRemote {
   // 1. Get unread notifications (pending)

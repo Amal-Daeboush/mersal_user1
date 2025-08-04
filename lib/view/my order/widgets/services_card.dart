@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mersal/data/model/service_revestion_model.dart'
+import 'package:mersal/model/service_revestion_model.dart'
     as service_revestion_model;
 
 import '../../../core/constant/app_colors.dart';

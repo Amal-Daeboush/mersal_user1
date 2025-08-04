@@ -1,5 +1,5 @@
-import 'package:mersal/data/model/cart_model.dart';
-import 'package:mersal/data/model/user_model.dart';
+import 'package:mersal/model/cart_model.dart';
+import 'package:mersal/model/user_model.dart';
 
 class ConstData {
   //const data

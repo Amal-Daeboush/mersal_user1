@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 import 'package:mersal/core/class/crud.dart';
 import 'package:mersal/core/class/status_request.dart';
 import 'package:mersal/core/constant/api_links.dart';
-import 'package:mersal/data/model/products_model.dart';
-import 'package:mersal/data/model/rating_model.dart';
-import 'package:mersal/data/model/service_provider_model.dart';
+import 'package:mersal/model/products_model.dart';
+import 'package:mersal/model/rating_model.dart';
+import 'package:mersal/model/service_provider_model.dart';
 import 'package:mersal/view/widgets/snack%20bar/custom_snack_bar.dart';
 
-import '../../../data/data_source/remote/api_remote.dart';
+import '../../../model/api_remote.dart';
 
 class DetailsController extends GetxController {
   List<RatingsModel> ratings = [];

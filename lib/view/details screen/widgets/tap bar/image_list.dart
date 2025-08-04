@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:mersal/core/constant/styles.dart';
-import 'package:mersal/data/model/products_model.dart' as Product;
+import 'package:mersal/model/products_model.dart' as Product;
 
 
 class ImagesList extends StatelessWidget {

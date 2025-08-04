@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import 'package:mersal/core/constant/app_colors.dart';
 import 'package:mersal/core/constant/const_data.dart';
-import 'package:mersal/data/model/rating_model.dart';
+import 'package:mersal/model/rating_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mersal/view/details screen/controller/details_controller.dart';
 import 'package:mersal/view/details%20screen/widgets/add%20rate%20doilog/delet_edit_dialog.dart';

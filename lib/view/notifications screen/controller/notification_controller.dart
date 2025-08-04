@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mersal/core/class/status_request.dart';
 import 'package:mersal/core/constant/const_data.dart';
-import 'package:mersal/data/model/notification_model.dart';
+import 'package:mersal/model/notification_model.dart';
 import 'package:mersal/view/notifications%20screen/controller/notification_remote.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 

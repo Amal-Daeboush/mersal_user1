@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mersal/core/constant/styles.dart';
-import 'package:mersal/data/model/rating_model.dart';
+import 'package:mersal/model/rating_model.dart';
 
 import '../card_opinion.dart';
 

@@ -16,7 +16,7 @@ import 'package:mersal/core/constant/api_links.dart';
 import 'package:mersal/core/constant/const_data.dart';
 import 'package:mersal/core/sevices/key_shsred_perfences.dart';
 import 'package:mersal/core/sevices/sevices.dart';
-import 'package:mersal/data/data_source/remote/api_remote.dart';
+import 'package:mersal/model/api_remote.dart';
 import 'package:mersal/view/botttom%20nav%20bar/view/bottom_nav_bar_screen.dart';
 
 import 'package:mersal/view/widgets/snack%20bar/custom_snack_bar.dart';

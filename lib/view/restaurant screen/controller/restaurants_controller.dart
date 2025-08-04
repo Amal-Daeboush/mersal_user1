@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:mersal/core/class/crud.dart';
 import 'package:mersal/core/class/status_request.dart';
 import 'package:mersal/core/constant/api_links.dart';
-import 'package:mersal/data/model/food_provider_model.dart';
-import 'package:mersal/data/model/food_type_model.dart';
-import 'package:mersal/data/model/products_model.dart';
+import 'package:mersal/model/food_provider_model.dart';
+import 'package:mersal/model/food_type_model.dart';
+import 'package:mersal/model/products_model.dart';
 
 class RestaurantsController extends GetxController {
   StatusRequest statusRequest = StatusRequest.none;

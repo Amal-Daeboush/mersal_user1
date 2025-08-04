@@ -7,12 +7,16 @@ import 'package:mersal/core/constant/api_links.dart';
 import 'package:mersal/core/constant/const_data.dart';
 import 'package:mersal/core/sevices/key_shsred_perfences.dart';
 import 'package:mersal/core/sevices/sevices.dart';
-import 'package:mersal/data/data_source/remote/api_remote.dart';
+import 'package:mersal/model/api_remote.dart';
+
 import 'package:mersal/view/address/view/address.dart';
 import 'package:mersal/view/authentication/verfication/view/verfication_phon_screen.dart';
 import 'package:mersal/view/botttom%20nav%20bar/view/bottom_nav_bar_screen.dart';
 import 'package:mersal/view/notifications%20screen/controller/notification_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../chat screen/controller/global_chat_pusher_controller.dart';
+import '../../../favourite/controller/favourite_controller.dart';
 
 class LoginController extends GetxController {
   bool obscureText = false;
@@ -52,6 +56,9 @@ class LoginController extends GetxController {
         } else {
           Get.snackbar('نجاح', 'تم تسجيل الدخول');
           if (ConstData.user!.user.otp == '1') {
+           Get.put(GlobalPusherController());
+  Get.put(FavouriteController());
+
             var controller = Get.put(NotificationController());
             controller.loadNotifications(loadUnreadAlso: true);
             Get.off(AddressScreen(isfromHome: false));

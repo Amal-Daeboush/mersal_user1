@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mersal/data/model/rating_model.dart';
+import 'package:mersal/model/rating_model.dart';
 import 'package:mersal/view/details%20screen/controller/details_controller.dart';
 import 'package:mersal/view/details%20screen/widgets/add%20rate%20doilog/edit_rate_dialog.dart';
 import 'package:mersal/view/widgets/custom_loading.dart';

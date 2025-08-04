@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mersal/core/constant/app_colors.dart';
 import 'package:mersal/core/constant/styles.dart';
-import 'package:mersal/data/model/food_type_model.dart';
+import 'package:mersal/model/food_type_model.dart';
 
 class TypeSelect extends StatelessWidget {
   final FoodTypeModel foodTypeModel;

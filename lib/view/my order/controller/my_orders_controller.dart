@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:mersal/core/class/crud.dart';
 import 'package:mersal/core/class/status_request.dart';
 import 'package:mersal/core/constant/api_links.dart';
-import 'package:mersal/data/data_source/remote/api_remote.dart';
-import 'package:mersal/data/model/product_order_model.dart';
-import 'package:mersal/data/model/service_revestion_model.dart';
+import 'package:mersal/model/api_remote.dart';
+import 'package:mersal/model/product_order_model.dart';
+import 'package:mersal/model/service_revestion_model.dart';
 
 class MyOrdersController extends GetxController {
   List<OrderProductModel> productOrders = [];

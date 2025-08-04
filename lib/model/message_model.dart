@@ -21,7 +21,8 @@ class MessageModel {
         message: json["message"],
         senderId: json["sender_id"],
         receiverId: json["receiver_id"],
-        createdAt: DateTime.parse(json["created_at"]),
+     createdAt: DateTime.parse(json['created_at']).toLocal(),
+
     );
 
     Map<String, dynamic> toJson() => {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mersal/data/model/favourite_model.dart' as Fav;
+import 'package:mersal/model/favourite_model.dart' as Fav;
 import '../../../core/constant/app_colors.dart';
 import '../../../core/constant/styles.dart';
 

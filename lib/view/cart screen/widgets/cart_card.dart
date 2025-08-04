@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:mersal/core/constant/app_colors.dart';
 import 'package:mersal/core/constant/styles.dart';
-import 'package:mersal/data/model/cart_model.dart';
+import 'package:mersal/model/cart_model.dart';
 
 class CartCard extends StatelessWidget {
   final CartModel cartModel;

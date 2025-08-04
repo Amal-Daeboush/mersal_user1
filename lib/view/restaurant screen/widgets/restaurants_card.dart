@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mersal/data/model/food_provider_model.dart';import '../../../core/constant/app_colors.dart';
+import 'package:mersal/model/food_provider_model.dart';import '../../../core/constant/app_colors.dart';
 import '../../../core/constant/app_image_asset.dart';
 import '../../../core/constant/styles.dart';
 

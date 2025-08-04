@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:mersal/core/class/helper_functions.dart';
 import 'package:mersal/core/constant/app_image_asset.dart';
-import 'package:mersal/data/model/notification_model.dart';
+import 'package:mersal/model/notification_model.dart';
 import 'package:mersal/view/notifications%20screen/notification_card.dart';
 
 import '../../../core/constant/app_colors.dart';

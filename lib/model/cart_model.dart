@@ -1,5 +1,5 @@
 
-import 'package:mersal/data/model/products_model.dart';
+import 'package:mersal/model/products_model.dart';
 
 class CartModel {
   final ProductModel productModel;
