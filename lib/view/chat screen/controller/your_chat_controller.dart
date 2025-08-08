@@ -8,18 +8,17 @@ import '../../../core/class/status_request.dart';
 import '../../../core/constant/api_links.dart';
 import '../../../model/message_model.dart';
 
-
 class YourChatController extends GetxController {
   var messages = <MessageModel>[].obs;
   TextEditingController messageController = TextEditingController();
   StatusRequest statusRequest = StatusRequest.loading;
   Crud crud = Crud();
-static RxString currentChatId = ''.obs;
+  static RxString currentChatId = ''.obs;
   Worker? _conversationsMessagesWorker;
   Worker? _unreadMessagesWorker;
 
   String id;
-  
+
   final _chatStreamController = StreamController<List<MessageModel>>.broadcast();
   Stream<List<MessageModel>> get chatStream => _chatStreamController.stream;
 
@@ -28,7 +27,7 @@ static RxString currentChatId = ''.obs;
   @override
   void onInit() {
     super.onInit();
-      currentChatId.value = id;
+    currentChatId.value = id;
     getConversation();
 
     if (Get.isRegistered<GlobalPusherController>()) {
@@ -47,6 +46,11 @@ static RxString currentChatId = ''.obs;
 
             if (!alreadyExists) {
               messages.add(newMsg);
+
+              // فور استقبال رسالة جديدة وأنت داخل المحادثة: عيّنها كمقروءة مباشرة
+              if (newMsg.receiverId == ConstData.userid.toString() && newMsg.isRead == "0") {
+                markMessagesAsReadFromSender(newMsg.senderId);
+              }
             }
           }
 
@@ -69,7 +73,7 @@ static RxString currentChatId = ''.obs;
     }
   }
 
-  Future<void> getConversation() async {
+    Future<void> getConversation() async {
     var response = await crud.getData(
       '${ApiLinks.getConversation}/$id',
       ApiLinks().getHeaderWithToken(),
@@ -91,23 +95,29 @@ static RxString currentChatId = ''.obs;
           if (!_chatStreamController.isClosed) {
             _chatStreamController.add([]);
           }
-        } else if (data is List) {
-          List<MessageModel> newMessages =
-              data.map((item) => MessageModel.fromJson(item)).toList();
+          update();
+        } else if (data is Map && data.containsKey("messages")) {
+          List<MessageModel> newMessages = (data["messages"] as List)
+              .map((item) => MessageModel.fromJson(item))
+              .toList();
           messages.assignAll(newMessages);
+
+          // عند تحميل الرسائل الأولى، عينها كمقروءة كلها لأن المستخدم في المحادثة
+          markMessagesAsReadFromSender(id);
+
           if (!_chatStreamController.isClosed) {
             _chatStreamController.add(newMessages);
           }
           statusRequest = StatusRequest.success;
+          update();
         } else {
           statusRequest = StatusRequest.failure;
           messages.clear();
+          update();
         }
-        update();
       },
     );
   }
-
   Future<void> sendMessage() async {
     String messageText = messageController.text.trim();
 
@@ -119,6 +129,7 @@ static RxString currentChatId = ''.obs;
       receiverId: id,
       senderId: ConstData.userid,
       isSending: true,
+      isRead: "1", // أنت مرسلها فهي مقروءة
     );
 
     messages.add(tempMessage);
@@ -136,6 +147,7 @@ static RxString currentChatId = ''.obs;
           message: messageText,
           receiverId: id,
           senderId: ConstData.userid,
+          isRead: "1",
         );
       }
     } else {
@@ -156,15 +168,51 @@ static RxString currentChatId = ''.obs;
     return response.fold((l) => l, (r) => r);
   }
 
+  // تابع لتمييز كل الرسائل الواردة من هذا المرسل كمقروءة
+  Future<void> markMessagesAsReadFromSender(String senderId) async {
+    var response = await crud.postData(
+      '${ApiLinks.makeMessageRead}/$senderId', // مسار الـ API لتعليم الرسائل كمقروءة
+      {},
+      ApiLinks().getHeaderWithToken(),
+      false,
+    );
+
+    response.fold(
+      (failure) => print('Failed to mark messages as read: $failure'),
+      (success) {
+        // تحديث الرسائل محلياً
+        messages.assignAll(messages.map((msg) {
+  if (msg.senderId == senderId) {
+    return MessageModel(
+      message: msg.message,
+      senderId: msg.senderId,
+      receiverId: msg.receiverId,
+      isRead: "1",
+      createdAt: msg.createdAt,
+      isSending: msg.isSending,
+    );
+  }
+  return msg;
+}).toList());
+
+
+        _chatStreamController.add(List<MessageModel>.from(messages));
+        update();
+      },
+    );
+  }
+
   @override
   void onClose() {
+    markMessagesAsReadFromSender(id); // تمييز الرسائل كمقروءة عند الإغلاق
+
     _conversationsMessagesWorker?.dispose();
     _unreadMessagesWorker?.dispose();
 
     if (!_chatStreamController.isClosed) {
       _chatStreamController.close();
     }
-     currentChatId.value = '';
+    currentChatId.value = '';
     super.onClose();
   }
 }

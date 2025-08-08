@@ -20,6 +20,7 @@ class AppImageAsset {
   static const String social = "$rootIcons/social.svg";
   //image
   static const String restaurant_Image = "$rootImages/Restaurant Image.png";
+   static const String driver = "$rootImages/driver.jpg";
   static const String off_Image = "$rootImages/offpng.png";
   static const String discount = "$rootImages/discounts.png";
   static const String cap = "$rootImages/cape.png";

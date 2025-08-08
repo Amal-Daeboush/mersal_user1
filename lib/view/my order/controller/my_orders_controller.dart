@@ -13,7 +13,7 @@ class MyOrdersController extends GetxController {
   List<OrderProductModel> cancelOrders = [];
   List<OrderProductModel> onWayOrders = [];
   List<OrderProductModel> coupletOrders = [];
-   List<OrderProductModel> acceptedOrders = [];
+  List<OrderProductModel> acceptedOrders = [];
   List<ServiceReservationModel> servicesOrders = [];
   List<ServiceReservationModel> servicesactiveOrders = [];
   List<ServiceReservationModel> servicescancelOrders = [];
@@ -73,7 +73,7 @@ class MyOrdersController extends GetxController {
                 productOrders
                     .where((item) => item.status == 'cancelled')
                     .toList();
-  acceptedOrders =
+            acceptedOrders =
                 productOrders
                     .where((item) => item.status == 'accepted')
                     .toList();
@@ -85,7 +85,7 @@ class MyOrdersController extends GetxController {
             message = 'لا توجد طلبات';
             productOrders = [];
             statusRequest = StatusRequest.failure;
-            Get.snackbar('تنبيه', message, snackPosition: SnackPosition.BOTTOM);
+        //    Get.snackbar('تنبيه', message, snackPosition: SnackPosition.BOTTOM);
           }
         } else {
           message = 'حدث خطأ في جلب البيانات';
@@ -146,10 +146,10 @@ class MyOrdersController extends GetxController {
                     .where((item) => item.status == 'complete')
                     .toList();
           } else {
-            message = 'لا توجد طلبات';
+            message = ' لا توجد حجوزات';
             servicesOrders = [];
             statusRequest = StatusRequest.failure;
-            Get.snackbar('تنبيه', message, snackPosition: SnackPosition.BOTTOM);
+         //   Get.snackbar('', message, snackPosition: SnackPosition.BOTTOM);
           }
         } else {
           message = 'حدث خطأ في جلب البيانات';
@@ -184,7 +184,6 @@ class MyOrdersController extends GetxController {
     update();
   }
 
-
   /*   void filterMFavourites(String query) {
     if (query.isEmpty) {
       filteredFavourite = List.from(favourite);
@@ -198,5 +197,4 @@ class MyOrdersController extends GetxController {
     }
     update();
   } */
-
 }

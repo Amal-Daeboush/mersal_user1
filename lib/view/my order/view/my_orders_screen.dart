@@ -9,7 +9,6 @@ import 'package:mersal/core/class/status_request.dart';
 import 'package:mersal/view/my%20order/controller/my_orders_controller.dart';
 import 'package:mersal/view/my%20order/widgets/cancel_order_dialog.dart';
 import 'package:mersal/view/my%20order/widgets/my_order_card.dart';
-import 'package:mersal/view/my%20order/widgets/order_shimmer.dart';
 import 'package:mersal/view/my%20order/widgets/services_card.dart';
 import '../../../core/constant/app_colors.dart';
 import '../../../core/constant/styles.dart';
@@ -148,7 +147,7 @@ class MyOrdersScreen extends StatelessWidget {
                                                                 cancel: () {
                                                                   CancelOrderDialog(
                                                                     context,
-                                                                    e.id.toString(),
+                                                                    e.orderId.toString(),
                                                                   );
                                                                 },
                                                                 myOrdersModel:
@@ -229,7 +228,7 @@ class MyOrdersScreen extends StatelessWidget {
                                                               cancel: () {
                                                                 CancelOrderDialog(
                                                                   context,
-                                                                  e.id.toString(),
+                                                                  e.orderId.toString(),
                                                                 );
                                                               },
                                                               myOrdersModel: e,
@@ -321,7 +320,7 @@ class MyOrdersScreen extends StatelessWidget {
                                                                 cancel: () {
                                                                   CancelOrderDialog(
                                                                     context,
-                                                                    e.id.toString(),
+                                                                    e.orderId.toString(),
                                                                   );
                                                                 },
                                                                 myOrdersModel:

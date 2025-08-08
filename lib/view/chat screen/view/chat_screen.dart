@@ -4,7 +4,7 @@ import 'package:mersal/core/class/status_request.dart';
 import 'package:mersal/core/constant/styles.dart';
 import 'package:mersal/view/chat%20screen/view/your_chat_screen.dart';
 import 'package:mersal/view/chat%20screen/widgets/custom_chat.dart';
-import 'package:mersal/view/widgets/custom_loading.dart';
+import 'package:mersal/view/chat%20screen/widgets/custom_chat_shimmer.dart';
 import '../../favourite/widget/favourite_app_bar.dart';
 import '../controller/global_chat_pusher_controller.dart';
 
@@ -29,12 +29,15 @@ class ChatScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               if (controller.statusRequest == StatusRequest.loading)
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 120,
-                    vertical: 20,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: ListView.separated(
+                      itemBuilder: (context, index) => CustomChatShimmer(),
+                      separatorBuilder: (_, __) => const SizedBox(height: 10),
+                      itemCount: 5,
+                    ),
                   ),
-                  child: customLoadingIndictor(),
                 )
               else if (controller.statusRequest == StatusRequest.failure ||
                   controller.statusRequest == StatusRequest.offlineFailure)

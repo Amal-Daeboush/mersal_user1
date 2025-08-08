@@ -65,7 +65,7 @@ class AllProductScreen extends StatelessWidget {
                         child:
                             controller.statusRequest == StatusRequest.loading
                                 ? GridView.builder(
-                                  itemCount: 5,
+                                  itemCount: 6,
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
                                   gridDelegate:

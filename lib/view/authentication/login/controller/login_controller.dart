@@ -1,19 +1,16 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mersal/core/class/status_request.dart';
-import 'package:mersal/core/constant/api_links.dart';
 import 'package:mersal/core/constant/const_data.dart';
-import 'package:mersal/core/sevices/key_shsred_perfences.dart';
-import 'package:mersal/core/sevices/sevices.dart';
+
 import 'package:mersal/model/api_remote.dart';
 
 import 'package:mersal/view/address/view/address.dart';
 import 'package:mersal/view/authentication/verfication/view/verfication_phon_screen.dart';
-import 'package:mersal/view/botttom%20nav%20bar/view/bottom_nav_bar_screen.dart';
+
 import 'package:mersal/view/notifications%20screen/controller/notification_controller.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 
 import '../../../chat screen/controller/global_chat_pusher_controller.dart';
 import '../../../favourite/controller/favourite_controller.dart';
@@ -92,36 +89,39 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<void> loginGoogle() async {
+//  StreamSubscription? _linkSub;
+
+/*   Future<void> loginWithGoogle(bool isgoogle) async {
     try {
-      // 1. افتح رابط Google OAuth
-      final Uri googleUri = Uri.parse(ApiLinks.google);
-      if (await canLaunchUrl(googleUri)) {
-        await launchUrl(googleUri, mode: LaunchMode.externalApplication);
-      } else {
-        throw 'Could not launch ${ApiLinks.google}';
+      // 1. افتح رابط تسجيل الدخول
+      final Uri loginUri = Uri.parse(isgoogle?"https://mersal.site/Ms/api/auth/google/redirect":ApiLinks.facebook);
+      if (!await launchUrl(loginUri, mode: LaunchMode.externalApplication)) {
+        throw 'لا يمكن فتح الرابط';
       }
 
-      // 2. بعد تسجيل الدخول وإعادة التوجيه، يجب أن تستقبل التوكن من الخادم
-      // مثال لاستدعاء API لاسترجاع التوكن
-      final response = await http.get(Uri.parse(ApiLinks.google));
+      // 2. استمع لرابط العودة (callback)
+      _linkSub = linkStream.listen((String? link) async {
+        if (link != null && link.contains('token=')) {
+          // استخرج التوكن من الرابط
+          final uri = Uri.parse(link);
+          final token = uri.queryParameters['token'];
 
-      if (response.statusCode == 200) {
-        final decodeResponse = jsonDecode(response.body);
-        final token = decodeResponse['access_token'];
+          if (token != null) {
+            print("🔐 Token: $token");
 
-        // 3. حفظ التوكن محليًا
-        await MyServices.saveValue(SharedPreferencesKey.tokenkey, token);
-        await MyServices().setConstToken();
+            // احفظ التوكن
+            await MyServices.saveValue(SharedPreferencesKey.tokenkey, token);
+            await MyServices().setConstToken();
 
-        // 4. الانتقال إلى الشاشة التالية
-        Get.off(BottomNavBarScreen()); // أو الشاشة التي تريدها
-      } else {
-        throw 'Failed to login with Google';
-      }
+            Get.offAll(() => BottomNavBarScreen()); // أو أي شاشة رئيسية
+          }
+        }
+      }, onError: (err) {
+        print("❌ Error listening to links: $err");
+      });
     } catch (e) {
-      print('Google login error: $e');
-      Get.snackbar('Error', 'Google login failed');
+      print("Google Login Error: $e");
+      Get.snackbar('خطأ', 'فشل تسجيل الدخول باستخدام Google');
     }
-  }
+  } */
 }

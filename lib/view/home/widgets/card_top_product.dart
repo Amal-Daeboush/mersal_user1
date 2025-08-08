@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mersal/model/products_model.dart';
 import '../../../../core/constant/app_colors.dart';
-import '../../../../core/constant/app_image_asset.dart';
 import '../../../../core/constant/styles.dart';
 import '../../details screen/view/details_screen.dart';
 
@@ -37,9 +36,9 @@ class CardTopProduct extends StatelessWidget {
               height: height ?? 150.h,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.r),
-                image: const DecorationImage(
+                image:  DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(AppImageAsset.off_Image),
+                  image: NetworkImage(productModel.images.first.url),
                 ),
               ),
               child: Padding(

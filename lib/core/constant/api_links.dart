@@ -76,6 +76,9 @@ class ApiLinks {
   static const String getConversations = "$server/getInteractedUsers";
   static const String getConversation = "$server/getConversation";
   static const String sendMessage = "$server/SendTo";
+   static const String makeMessageRead = "$server/mark-messages-as-read";
+     // ================================= user info  ================================== //
+  static const String getUser = "$server/user_info";
 
   Map<String, String> getHeader() {
     Map<String, String> mainHeader = {'Accept': 'application/json'};

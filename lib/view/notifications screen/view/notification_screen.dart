@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:mersal/core/class/helper_functions.dart';
+import 'package:mersal/core/class/status_request.dart';
 import 'package:mersal/core/constant/app_image_asset.dart';
 import 'package:mersal/model/notification_model.dart';
 import 'package:mersal/view/notifications%20screen/notification_card.dart';
@@ -11,6 +12,7 @@ import '../../../core/constant/app_colors.dart';
 import '../../../core/constant/const_data.dart';
 import '../../../core/constant/styles.dart';
 
+import '../../chat screen/widgets/custom_chat_shimmer.dart';
 import '../controller/notification_controller.dart';
 
 class NotificationScreen extends StatelessWidget {
@@ -125,22 +127,39 @@ class NotificationScreen extends StatelessWidget {
                               /*   SizedBox(
                       height: 10.h,
                     ), */
-                              Expanded(
-                                child: ListView(
-                                  children: [
-                                    ..._sortedNotifications(
-                                          controller.read,
-                                          controller.unread,
-                                        )
-                                        .map(
-                                          (e) => NotificationCard(
-                                            notificationModel: e,
-                                          ),
-                                        )
-                                        .toList(),
-                                  ],
-                                ),
-                              ),
+                              controller.statusRequest == StatusRequest.loading
+                                  ? Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                      ),
+                                      child: ListView.separated(
+                                        itemBuilder:
+                                            (context, index) =>
+                                                CustomChatShimmer(),
+                                        separatorBuilder:
+                                            (_, __) =>
+                                                const SizedBox(height: 10),
+                                        itemCount: 5,
+                                      ),
+                                    ),
+                                  )
+                                  : Expanded(
+                                    child: ListView(
+                                      children: [
+                                        ..._sortedNotifications(
+                                              controller.read,
+                                              controller.unread,
+                                            )
+                                            .map(
+                                              (e) => NotificationCard(
+                                                notificationModel: e,
+                                              ),
+                                            )
+                                            .toList(),
+                                      ],
+                                    ),
+                                  ),
                               SizedBox(height: 20.h),
                             ],
                           ),

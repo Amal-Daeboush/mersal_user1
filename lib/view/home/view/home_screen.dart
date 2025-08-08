@@ -171,6 +171,7 @@ class HomeScreen extends StatelessWidget {
                                                         ),
                                                       ),
                                               child: CustomService(
+                                                image: cat.imag,
                                                 id: cat.id,
                                                 isSelected: false,
                                                 name: cat.name,

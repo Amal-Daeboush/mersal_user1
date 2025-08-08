@@ -29,10 +29,7 @@ class CustomChat extends StatelessWidget {
         messagesModel.name,
         style: Styles.style1.copyWith(color: AppColors.black),
       ),
-      subtitle: Text(
-        '[رسالة]', // يمكن لاحقًا إظهار آخر رسالة
-        style: Styles.style4.copyWith(color: AppColors.greyColor),
-      ),
+     
       trailing: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -49,7 +46,7 @@ class CustomChat extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20.r),
               ),
               child: Text(
-                unreadCount.toString(),
+                messagesModel.unreadCount.toString(),
                 style: Styles.style3.copyWith(color: Colors.white, fontSize: 12.sp),
               ),
             ),
